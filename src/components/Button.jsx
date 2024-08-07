@@ -1,0 +1,56 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const Button = ({
+  text,
+  iconShow,
+  iconPosition = 'left',
+  iconClassName,
+  className, 
+  onClick, 
+  ...props
+}) => {
+  return (
+    <button
+      className={classNames(
+        'flex items-center px-4 py-2',
+        { 'mr-2': iconShow && iconPosition === 'left', 'ml-2': iconShow && iconPosition === 'right' },
+        className 
+      )}
+      onClick={onClick} 
+      {...props}
+    >
+      {iconShow && iconPosition === 'left' && (
+        <span className="flex space-x-2 mr-2">
+          {iconShow.map((icon, index) => (
+            <FontAwesomeIcon key={index} icon={icon} className={iconClassName} />
+          ))}
+        </span>
+      )}
+      <span>{text}</span>
+      {iconShow && iconPosition === 'right' && (
+        <span className="flex space-x-2 ml-2">
+          {iconShow.map((icon, index) => (
+            <FontAwesomeIcon key={index} icon={icon} className={iconClassName} />
+          ))}
+        </span>
+      )}
+    </button>
+  );
+};
+
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+  iconShow: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array
+  ])),
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  iconClassName: PropTypes.string,
+  className: PropTypes.string, 
+  onClick: PropTypes.func, 
+};
+
+export default Button;
