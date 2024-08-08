@@ -5,21 +5,18 @@ import Input from '../components/Input';
 import Form from '../components/Form';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-
   const elementRef = useRef(null);
   const [width, setWidth] = useState(0);
 
-
   useEffect(() => {
     // if (elementRef.current) {
-    console.log(window.innerWidth)
+    console.log(window.innerWidth);
     setWidth(window.innerWidth);
     // }
 
@@ -36,25 +33,26 @@ const Login = () => {
     };
   }, []);
   return (
-
-    <div className='overflow-hidden relative ' >
-
-      <div className="absolute bg-primary-c rounded-full  z-10 translate-x-75% 1025:grid hidden "
+    <div className="overflow-hidden relative ">
+      <div
+        className="absolute bg-primary-c rounded-full  z-10 translate-x-75% 1025:grid hidden "
         style={{ width: `${width}px`, height: `${width}px` }}
-      >
-
-      </div>
+      ></div>
       <div className="bg-primary-a flex flex-col lg:z-20 z-0 min-h-screen ">
         <Header />
 
-
-        <main className="grid sm:grid-cols-12 gap-4 w-full  mt-4 align-items-center place-content-center justify-items-center
+        <main
+          className="grid sm:grid-cols-12 gap-4 w-full  mt-4 align-items-center place-content-center justify-items-center
  lg:z-30 z-0 1025:h-full h-[90vh]
 
-        ">
+        "
+        >
           <div className="align-items-center place-content-center  lg:col-span-4  1025:grid hidden ">
             <div className="bg-secondary-b w-1/2 h-60 lg:w-80 lg:h-96 flex justify-center items-center rounded-md">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s" alt="Sign Up Image" />
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s"
+                alt="Sign Up Image"
+              />
             </div>
           </div>
 
@@ -66,18 +64,23 @@ const Login = () => {
                   <Button
                     text="Don’t have an account? Sign Up"
                     onClick={() => {
-                      console.log("Button already have account");
+                      console.log('Button already have account');
                     }}
                     className="text-secondary-a hover:text-primary-a "
                   />
                 </div>
-                <div className="h-0.5 w-64 bg-primary-a mt-1 mb-8 opacity-50
-     "></div>
+                <div
+                  className="h-0.5 w-64 bg-primary-a mt-1 mb-8 opacity-50
+     "
+                ></div>
 
-                <form className="flex justify-center items-center flex-col mb-2 w-80  sm:w-96  " onSubmit={(e) => {
-                  e.preventDefault();
-                  console.log("Submitted!");
-                }}>
+                <form
+                  className="flex justify-center items-center flex-col mb-2 w-80  sm:w-96  "
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    console.log('Submitted!');
+                  }}
+                >
                   <div className="mb-4 flex flex-col gap-8 justify-center items-center">
                     <div className="h-11 w-full min-w-[200px]">
                       <Input
@@ -103,7 +106,6 @@ const Login = () => {
               hover:opacity-40
               "
                       />
-
                     </div>
                   </div>
                   <Button
@@ -113,17 +115,12 @@ const Login = () => {
           "
                   />
                 </form>
-
-
               </div>
             </div>
           </div>
         </main>
-
       </div>
     </div>
-
-
   );
 };
 

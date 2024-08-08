@@ -1,5 +1,15 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCoffee, faCheckSquare, faUser, faQrcode, faLink } from '@fortawesome/free-solid-svg-icons';
-import { faGoogle, faMicrosoft, faApple } from '@fortawesome/free-brands-svg-icons';
+import {
+  faTachometerAlt,
+  faLink,
+  faMagic,
+  faQrcode,
+  faCog,
+  faChartLine,
+  faUser,
+  faKey,
+  faSignOutAlt,
+  faHome, // Add this line
+} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faCoffee, faCheckSquare, faUser, faQrcode, faLink, faGoogle, faMicrosoft, faApple);
+library.add(faTachometerAlt, faLink, faMagic, faQrcode, faCog, faChartLine, faUser, faKey, faSignOutAlt, faHome);
