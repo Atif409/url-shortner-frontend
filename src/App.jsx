@@ -16,18 +16,15 @@ import 'react-simple-toasts/dist/theme/dark.css';
 // toastConfig({ theme: 'dark' });
 
 const App = () => {
-  const handleToggle = (newState) => {
-    console.log('Toggle State:', newState);
-  };
   return (
     <ThemeProvider>
       <div className="">
         {/* <Card/> */}
         {/* <Home /> */}
-        <SignUp />
+        {/* <SignUp /> */}
         {/* <Login/> */}
         {/* <Forgot/> */}
-        {/* <SideBar /> */}
+        <SideBar />
 
         {/* <CreateLinks /> */}
       </div>

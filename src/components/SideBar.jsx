@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CreateLinks from '../pages/CreateLinks';
 
 const SideBar = () => {
-  // State to keep track of the selected item
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  // Define onClick handlers for each button
   const handleHomeClick = () => {
     console.log('Home clicked');
   };
@@ -46,7 +45,6 @@ const SideBar = () => {
     console.log('Log out clicked');
   };
 
-  // Array of sidebar items with text, icon, and their respective onClick handlers
   const sidebarItems = [
     { icon: 'home', text: 'Home', onClick: handleHomeClick },
     { icon: 'tachometer-alt', text: 'Dashboard', onClick: handleDashboardClick },
@@ -61,22 +59,23 @@ const SideBar = () => {
   ];
 
   return (
-    <div className="min-h-screen grid grid-cols-12">
-      <nav className="bg-primary-b h-[100vh] p-4 col-span-2">
+    <div className=" grid grid-cols-12">
+      <nav className="bg-primary-b p-4 col-span-2">
         <ul>
           {sidebarItems.map((item, index) => (
             <li
               key={index}
               onClick={() => {
                 setSelectedIndex(index);
-                item.onClick(); // Trigger the specific onClick handler
+                item.onClick();
               }}
-              className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer mt-2
+              className={`flex items-center justify-center lg:justify-start space-x-3 p-2 rounded-lg cursor-pointer mt-2
                 ${selectedIndex === index ? 'bg-primary-c text-secondary-a' : 'text-secondary-b hover:bg-primary-a'}`}
             >
               <FontAwesomeIcon
                 icon={item.icon}
-                className={`${selectedIndex === index ? 'text-secondary-a' : 'text-secondary-b'}`}
+                className={`${selectedIndex === index ? 'text-secondary-a' : 'text-secondary-b'} 
+                  ${!document.querySelector('body').classList.contains('lg') ? 'text-xl' : 'text-base'}`}
               />
               <span className={`${selectedIndex === index ? 'text-secondary-a' : ''} hidden lg:inline`}>
                 {item.text}
@@ -86,7 +85,9 @@ const SideBar = () => {
         </ul>
       </nav>
 
-      <div className="h-[100vh] bg-primary-c col-span-10"></div>
+      <div className=" bg-primary-c col-span-10">
+        <CreateLinks />
+      </div>
     </div>
   );
 };

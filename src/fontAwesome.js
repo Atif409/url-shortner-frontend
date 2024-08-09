@@ -9,7 +9,20 @@ import {
   faUser,
   faKey,
   faSignOutAlt,
-  faHome, // Add this line
+  faHome,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faTachometerAlt, faLink, faMagic, faQrcode, faCog, faChartLine, faUser, faKey, faSignOutAlt, faHome);
+library.add(
+  faTachometerAlt,
+  faLink,
+  faMagic,
+  faQrcode,
+  faCog,
+  faChartLine,
+  faUser,
+  faKey,
+  faSignOutAlt,
+  faHome,
+  faArrowRight
+);
