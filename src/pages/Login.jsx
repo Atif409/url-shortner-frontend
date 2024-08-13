@@ -2,16 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import Form from '../components/Form';
+import { localStorageService } from '../utils/localStorageService';
 
+import { loginUser } from '../services/user.api';
+import toast from 'react-simple-toasts';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isLogInLoading, setIsLoginLoading] = useState(false);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  const elementRef = useRef(null);
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
@@ -32,6 +33,35 @@ const Login = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  const handleLogIn = async () => {
+    console.log('submit');
+    if (!password || !email) {
+      toast('All fields are required');
+    }
+
+    // Add your sign up logic here
+    else {
+      const userData = { email: email, password: password };
+      console.log(userData);
+
+      try {
+        setIsLoginLoading(true);
+        const response = await loginUser(userData);
+        if (response.success) {
+          const storedData = localStorageService.setItem('token', response.data.token);
+          if (storedData) {
+            setData(storedData);
+          }
+        }
+        toast(response.data.message);
+
+        setIsLoginLoading(false);
+      } catch (error) {
+        toast('Sorry! Something went wrong. Please try again later.');
+      }
+    }
+  };
+
   return (
     <div className="overflow-hidden relative ">
       <div
@@ -110,6 +140,8 @@ const Login = () => {
                   </div>
                   <Button
                     text="Log in"
+                    onClick={handleLogIn}
+                    isLoading={isLogInLoading}
                     className="mt-8 bg-primary-a text-secondary-b w-24 h-8 flex justify-center items-center
           hover:opacity-75
           "

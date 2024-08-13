@@ -12,21 +12,22 @@ import ToggleButton from './components/ToggleButton.jsx';
 import CreateLinks from './pages/CreateLinks.jsx';
 import toast, { toastConfig } from 'react-simple-toasts';
 import 'react-simple-toasts/dist/theme/dark.css';
+import Dashboard from './pages/Dashboard';
 
 // toastConfig({ theme: 'dark' });
 
 const App = () => {
   return (
     <ThemeProvider>
-      <div className="">
+      <div className="App">
         {/* <Card/> */}
         {/* <Home /> */}
         {/* <SignUp /> */}
-        {/* <Login/> */}
+        <Login />
         {/* <Forgot/> */}
-        <SideBar />
-
+        {/* <SideBar /> */}
         {/* <CreateLinks /> */}
+        {/* <Dashboard /> */}
       </div>
     </ThemeProvider>
   );

@@ -6,6 +6,7 @@ export const mapTheme = (variables) => {
     '--color-primary-b': variables['primary-b'] || '',
     '--color-primary-c': variables['primary-c'] || '',
     '--color-primary-d': variables['primary-d'] || '',
+    '--color-primary-f': variables['primary-f'] || '',
 
     '--color-secondary-a': variables['secondary-a'] || '',
     '--color-secondary-b': variables['secondary-b'] || '',

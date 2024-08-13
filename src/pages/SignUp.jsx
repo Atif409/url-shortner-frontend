@@ -54,8 +54,6 @@ const SignUp = () => {
       try {
         setIsSignUpLoading(true);
         const response = await registerUser(userData);
-        console.log(response);
-
         toast(response.data.message);
 
         setIsSignUpLoading(false);

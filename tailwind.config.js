@@ -12,6 +12,7 @@ export default {
         'primary-b': 'var(--color-primary-b)',
         'primary-c': 'var(--color-primary-c)',
         'primary-d': 'var(--color-primary-d)',
+        'primary-f': 'var(--color-primary-f)',
 
         'secondary-a': 'var(--color-secondary-a)',
         'secondary-b': 'var(--color-secondary-b)',
