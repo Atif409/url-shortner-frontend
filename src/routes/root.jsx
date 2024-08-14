@@ -58,6 +58,10 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: 'dashboard',
+        element: <Dashboard />,
+      },
+      {
         path: 'create-link',
         element: <CreateLinks />,
       },

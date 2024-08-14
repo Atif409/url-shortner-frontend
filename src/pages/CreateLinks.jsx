@@ -3,11 +3,12 @@ import ToggleButton from '../components/ToggleButton';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import DateTimePicker from '../components/DateTimePicker';
+import toast from 'react-simple-toasts';
 const CreateLinks = () => {
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
   const [customAlias, setCustomAlias] = useState('');
-  const [isToggled, setIsToggled] = useState(false);
+  const [isCustomAlias, setisCustomAlias] = useState(false);
   const [isDateTimePickerToggled, setIsDateTimePickerToggled] = useState(false);
   const [isPasswordToggled, setIsPasswordToggled] = useState(false);
 
@@ -20,8 +21,7 @@ const CreateLinks = () => {
   };
 
   const toggleAliasSetting = () => {
-    setIsToggled(!isToggled);
-    console.log('Toggled:', !isToggled);
+    setisCustomAlias(!isCustomAlias);
   };
   const toggleDateTimePicker = () => {
     setIsDateTimePickerToggled(!isDateTimePickerToggled);
@@ -30,6 +30,12 @@ const CreateLinks = () => {
     setIsPasswordToggled(!isPasswordToggled);
   };
 
+  const createShortLink = () => {
+    console.log(isCustomAlias, customAlias);
+    if (isCustomAlias && !customAlias) {
+      toast('Please choose a unique alias');
+    }
+  };
   return (
     <div className="flex flex-col items-start bg-primary-c p-8">
       <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
@@ -53,10 +59,10 @@ const CreateLinks = () => {
           <Button
             text="Shorten your Link"
             onClick={() => {
-              console.log('Button clicked');
+              createShortLink();
             }}
             className="bg-primary-b text-secondary-b lg:w-[20%] sm:w-[30%] w-[60%] h-auto font-bold text-xs lg:text-base hover:opacity-75 rounded-lg"
-            iconShow={['fas', 'arrow-right']}
+            iconShow={['arrow-right']}
             iconPosition="right"
             iconClassName="text-sm"
           />
@@ -76,14 +82,16 @@ const CreateLinks = () => {
             descriptionClassName="text-secondary-a sm:text-base text-xs"
           />
 
-          <Input
-            type="text"
-            value={customAlias}
-            onChange={handleCustomAliasChange}
-            placeholder="Enter your custom alias here"
-            className="sm:w-[50%] w-[80%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75 mb-4"
-            disabled={!isToggled}
-          />
+          {isCustomAlias && (
+            <Input
+              type="text"
+              value={customAlias}
+              onChange={handleCustomAliasChange}
+              placeholder="Enter your custom alias here"
+              className="sm:w-[50%] w-[80%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75 mb-4"
+              disabled={!isCustomAlias}
+            />
+          )}
 
           <ToggleButton
             title="Link Tracking (optional)"
@@ -116,7 +124,6 @@ const CreateLinks = () => {
               descriptionClassName="text-secondary-a sm:text-base text-xs"
             />
           </div>
-
         </div>
 
         <div className="mt-4">
