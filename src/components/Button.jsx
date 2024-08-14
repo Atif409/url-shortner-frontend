@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Button = ({ text, iconShow, iconPosition = 'left', iconClassName, className, onClick,isLoading=false, ...props }) => {
+const Button = ({
+  text,
+  iconShow,
+  iconPosition = 'left',
+  iconClassName,
+  className,
+  onClick,
+  isLoading = false,
+  ...props
+}) => {
   return (
     <button
       className={classNames(
@@ -15,9 +24,10 @@ const Button = ({ text, iconShow, iconPosition = 'left', iconClassName, classNam
       {...props}
     >
       {isLoading && (
-      <span className="absolute w-full h-full bg-gray-200 opacity-50 flex items-center justify-center ">
-        <div className="w-4 h-4 border-2 border-t-2 border-gray-200 border-t-gray-500 rounded-full animate-spin"></div>
-      </span>)}
+        <span className="absolute w-full h-full bg-gray-200 opacity-50 flex items-center justify-center ">
+          <div className="w-4 h-4 border-2 border-t-2 border-gray-200 border-t-gray-500 rounded-full animate-spin"></div>
+        </span>
+      )}
 
       {iconShow && iconPosition === 'left' && (
         <span className="flex space-x-2 mr-2">
@@ -45,7 +55,7 @@ Button.propTypes = {
   iconClassName: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
-  isLoading:PropTypes.bool
+  isLoading: PropTypes.bool,
 };
 
 export default Button;
