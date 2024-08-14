@@ -57,7 +57,7 @@ const SideBar = () => {
 
   return (
     <div className=" grid grid-cols-12">
-      <nav className="bg-primary-b p-4 col-span-2">
+      <nav className="bg-primary-b p-4 lg:col-span-2 col-span-1">
         <ul>
           {sidebarItems.map((item, index) => (
             <li
