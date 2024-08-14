@@ -39,11 +39,16 @@ const SignUp = () => {
   }, []);
 
   const handleSignUp = async () => {
-    console.log('submit');
+    const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!email || !password || !confirmPassword || !userName) {
       toast('All fields are required');
     } else if (password !== confirmPassword) {
       toast('Passwords do not match');
+    } else if (!passwordCriteria.test(password)) {
+      toast(
+        'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.'
+      );
+      return;
     }
 
     // Add your sign up logic here
@@ -175,9 +180,9 @@ const SignUp = () => {
                   <Button
                     text="Sign up with"
                     iconShow={[
-                      ['fab', 'google'],
-                      ['fab', 'microsoft'],
-                      ['fab', 'apple'],
+                      ['fa-brands', 'google'],
+                      ['fa-brands', 'microsoft'],
+                      ['fa-brands', 'apple'],
                     ]}
                     iconPosition="right"
                     iconClassName="text-primary-b text-xl bg-primary-c w-8 h-6  flex justify-center items-center  "

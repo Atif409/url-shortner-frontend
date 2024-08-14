@@ -67,13 +67,13 @@ const Home = () => {
           <img src={imageSrc} alt="Sign Up Image" className="w-full max-w-md" />
         </div>
       </main>
-      <div className="flex justify-center items-center flex-col bg-primary-a  ">
+      <div className="flex justify-center items-center flex-col bg-primary-a pb-12  ">
         <h1 className="text-secondary-b sm:text-4xl text-2xl font-bold mt-12 ">{header}</h1>
 
         <div className="flex flex-row items-center justify-center gap-12 w-1/2 mt-12">
           <Button
             text="Short"
-            iconShow={['fas', 'link']}
+            iconShow={['fa-solid', 'link']}
             iconPosition="left"
             className={`mt-2 w-auto h-10 font-bold text-xs sm:text-base rounded-md 
                             ${activeButton === 'short' ? 'bg-primary-c text-secondary-a' : 'bg-primary-a text-secondary-b border-primary-c border-2'} 
@@ -83,7 +83,7 @@ const Home = () => {
 
           <Button
             text="QR Code"
-            iconShow={['fas', 'qrcode']}
+            iconShow={['fa-solid', 'qrcode']}
             iconPosition="left"
             className={`mt-2 w-auto h-10  font-bold text-xs sm:text-base rounded-md 
                             ${activeButton === 'qr' ? 'bg-primary-c text-secondary-a' : 'bg-primary-a text-secondary-b border-primary-c border-2'} 
@@ -94,7 +94,6 @@ const Home = () => {
         <div className="mt-8">
           <Card cardHeader={cardHeader} inputLabel={inputLabel} buttonText={buttonText} imageSrc={imageSrc} />
         </div>
-        <div>.</div>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faGoogle, faMicrosoft, faApple } from '@fortawesome/free-brands-svg-icons';
 import {
   faTachometerAlt,
   faLink,
@@ -12,7 +13,7 @@ import {
   faHome,
   faArrowRight,
   faArrowUp,
-  faArrowDown
+  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -27,6 +28,10 @@ library.add(
   faSignOutAlt,
   faHome,
   faArrowRight,
-  faArrowUp, // Add this line
-  faArrowDown // Add this line
+  faArrowUp, 
+  faArrowDown, 
+  faGoogle,
+  faMicrosoft, 
+  faApple,
+  
 );

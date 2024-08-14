@@ -105,8 +105,8 @@ const CreateLinks = () => {
           />
           <DateTimePicker disabled={!isDateTimePickerToggled} />
         </div>
-        <div className="mt-4 grid grid-cols-12">
-          <div className="lg:col-span-6 col-span-12 ">
+        <div className="mt-4 grid ">
+          <div className="">
             <ToggleButton
               title="QR Code (optional)"
               description="Enable this to generate a QR code"
@@ -116,13 +116,7 @@ const CreateLinks = () => {
               descriptionClassName="text-secondary-a sm:text-base text-xs"
             />
           </div>
-          <div className="col-span-6  lg:flex hidden">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s"
-              alt="QR CODE"
-              className="w-36"
-            />
-          </div>
+
         </div>
 
         <div className="mt-4">

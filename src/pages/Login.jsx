@@ -62,6 +62,7 @@ const Login = () => {
     }
   };
 
+
   return (
     <div className="overflow-hidden relative ">
       <div
@@ -72,12 +73,12 @@ const Login = () => {
         <Header />
 
         <main
-          className="grid sm:grid-cols-12 gap-4 w-full  mt-4 align-items-center place-content-center justify-items-center
- lg:z-30 z-0 1025:h-full h-[90vh]
+          className="grid sm:grid-cols-12 gap-4 w-full 1025:h-full h-[90vh] mt-4 align-items-center place-content-center justify-items-center
+ lg:z-30 z-0 
 
         "
         >
-          <div className="align-items-center place-content-center  lg:col-span-4  1025:grid hidden ">
+          <div className="align-items-center place-content-center lg:col-span-4  1025:grid hidden h-[82.5vh] ">
             <div className="bg-secondary-b w-1/2 h-60 lg:w-80 lg:h-96 flex justify-center items-center rounded-md">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s"

@@ -5,10 +5,6 @@ import CreateLinks from '../pages/CreateLinks';
 const SideBar = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const handleHomeClick = () => {
-    console.log('Home clicked');
-  };
-
   const handleDashboardClick = () => {
     console.log('Dashboard clicked');
   };
@@ -46,7 +42,6 @@ const SideBar = () => {
   };
 
   const sidebarItems = [
-    { icon: 'home', text: 'Home', onClick: handleHomeClick },
     { icon: 'tachometer-alt', text: 'Dashboard', onClick: handleDashboardClick },
     { icon: 'link', text: 'Create Links', onClick: handleCreateLinksClick },
     { icon: 'magic', text: 'Create Smart Links', onClick: handleCreateSmartLinksClick },
