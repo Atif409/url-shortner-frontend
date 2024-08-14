@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CreateLinks from '../pages/CreateLinks';
+import { localStorageService } from '../utils/localStorageService';
 
 const SideBar = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -38,7 +39,8 @@ const SideBar = () => {
   };
 
   const handleLogoutClick = () => {
-    console.log('Log out clicked');
+    localStorageService.removeItem('token');
+    window.location.reload();
   };
 
   const sidebarItems = [
@@ -80,9 +82,7 @@ const SideBar = () => {
         </ul>
       </nav>
 
-      <div className=" bg-primary-c col-span-10">
-        <CreateLinks />
-      </div>
+      <div className=" bg-primary-c col-span-10"></div>
     </div>
   );
 };

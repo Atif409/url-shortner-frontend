@@ -6,25 +6,21 @@ import { localStorageService } from '../utils/localStorageService';
 
 import { loginUser } from '../services/user.api';
 import toast from 'react-simple-toasts';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogInLoading, setIsLoginLoading] = useState(false);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
-
+  const navigate = useNavigate();
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    // if (elementRef.current) {
-    console.log(window.innerWidth);
     setWidth(window.innerWidth);
-    // }
 
     const handleResize = () => {
-      // if (elementRef.current) {
       setWidth(window.innerWidth);
-      // }
     };
 
     window.addEventListener('resize', handleResize);
@@ -33,35 +29,42 @@ const Login = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleLogIn = async () => {
-    console.log('submit');
+    const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#\-:])[A-Za-z\d@$!%*?&#\-:]{8,}$/;
     if (!password || !email) {
       toast('All fields are required');
-    }
-
-    // Add your sign up logic here
-    else {
+    } else if (!validateEmail(email)) {
+      toast('Email is not valid');
+    } else if (passwordCriteria.test(password) == false) {
+      toast(
+        'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.'
+      );
+    } else {
       const userData = { email: email, password: password };
-      console.log(userData);
-
       try {
         setIsLoginLoading(true);
         const response = await loginUser(userData);
-        if (response.success) {
-          const storedData = localStorageService.setItem('token', response.data.token);
+        console.log(response, response.success);
+        if (response.data.success) {
+          const storedData = localStorageService.setItem('token', response.data.data.token);
           if (storedData) {
             setData(storedData);
           }
+          navigate('/app');
         }
         toast(response.data.message);
-
         setIsLoginLoading(false);
       } catch (error) {
         toast('Sorry! Something went wrong. Please try again later.');
       }
     }
   };
-
 
   return (
     <div className="overflow-hidden relative ">

@@ -11,6 +11,9 @@ import ManageLinks from '../pages/ManageLinks';
 import Analytics from '../pages/Analytics';
 import ProfileSettings from '../pages/ProfileSettings';
 import Forgot from '../pages/Forgot';
+import UserApp from '../pages/UserApp';
+import ProtectedRoute from '../components/ProtectedRoute';
+import PublicRoute from '../components/PublicRoute';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -30,11 +33,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <PublicRoute element={<Login />} />,
   },
   {
     path: '/signup',
-    element: <SignUp />,
+    element: <PublicRoute element={<SignUp />} />,
   },
   {
     path: '/create-link',
@@ -55,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: '/forgot',
     element: <Forgot />,
+  },
+  {
+    path: '/app',
+    element: <ProtectedRoute children={<UserApp />} />,
   },
 ]);
 

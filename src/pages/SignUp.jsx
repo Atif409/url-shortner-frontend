@@ -4,6 +4,7 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import { registerUser } from '../services/user.api';
 import toast from 'react-simple-toasts';
+import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,19 +17,14 @@ const SignUp = () => {
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
 
-  const elementRef = useRef(null);
+  const navigate = useNavigate();
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    // if (elementRef.current) {
-    console.log(window.innerWidth);
     setWidth(window.innerWidth);
-    // }
 
     const handleResize = () => {
-      // if (elementRef.current) {
       setWidth(window.innerWidth);
-      // }
     };
 
     window.addEventListener('resize', handleResize);
@@ -38,29 +34,34 @@ const SignUp = () => {
     };
   }, []);
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSignUp = async () => {
-    const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#\-:])[A-Za-z\d@$!%*?&#\-:]{8,}$/;
     if (!email || !password || !confirmPassword || !userName) {
       toast('All fields are required');
     } else if (password !== confirmPassword) {
       toast('Passwords do not match');
-    } else if (!passwordCriteria.test(password)) {
+    } else if (!validateEmail(email)) {
+      toast('Email is not valid');
+    } else if (passwordCriteria.test(password) == false) {
       toast(
         'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.'
       );
-      return;
     }
 
     // Add your sign up logic here
     else {
       const userData = { user_name: userName, email: email, password: password };
-      console.log(userData);
 
       try {
         setIsSignUpLoading(true);
         const response = await registerUser(userData);
         toast(response.data.message);
-
+        navigate('/login');
         setIsSignUpLoading(false);
       } catch (error) {
         toast('Sorry! Something went wrong. Please try again later.');

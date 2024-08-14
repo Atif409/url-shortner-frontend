@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Button from '../components/Button'; // Import the Button component
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../hooks/useAuth';
 const Header = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const isAuthenticated = useAuth();
   return (
     <header className="z-30 bg-primary-a ">
       <nav className="flex h-auto w-auto mt-4 justify-between md:h-16 bg-transparent">
@@ -28,18 +29,28 @@ const Header = () => {
               <NavLink to="/services">Services</NavLink>
               <NavLink to="/contact">Contact Us</NavLink>
               <NavLink to="/about">About Us</NavLink>
-
               {/* Replacing button tags with Button component */}
-              <Button
-                text="Log in"
-                className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center "
-                onClick={() => navigate('/login')} // Navigate to the Login page
-              />
-              <Button
-                text="Sign up free"
-                className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
-                onClick={() => navigate('/signup')} // Navigate to the Login page
-              />
+              {!isAuthenticated && (
+                <Button
+                  text="Log in"
+                  className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center "
+                  onClick={() => navigate('/login')} // Navigate to the Login page
+                />
+              )}
+              {!isAuthenticated && (
+                <Button
+                  text="Sign up free"
+                  className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
+                  onClick={() => navigate('/signup')} // Navigate to the Login page
+                />
+              )}
+              {isAuthenticated && (
+                <Button
+                  text="DashBoard"
+                  className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
+                  onClick={() => navigate('/app')} // Navigate to the Login page
+                />
+              )}
             </div>
           </div>
 
@@ -61,21 +72,32 @@ const Header = () => {
 
           <div className="hidden w-1/5 items-center justify-evenly  font-semibold md:flex">
             {/* Replacing button tags with Button component */}
-            <Button
-              text="Log in"
-              className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center
+            {isAuthenticated == false && (
+              <Button
+                text="Log in"
+                className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center
             md:text-[12px] lg:text-md hover:opacity-75
             "
-              onClick={() => navigate('/login')} // Navigate to the Login page
-            />
-            <Button
-              text="Sign Up free"
-              className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center 
+                onClick={() => navigate('/login')} // Navigate to the Login page
+              />
+            )}
+            {isAuthenticated == false && (
+              <Button
+                text="Sign Up free"
+                className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center 
              md:text-[12px] lg:text-md 
              hover:opacity-75
             "
-              onClick={() => navigate('/signup')} // Navigate to the Login page
-            />
+                onClick={() => navigate('/signup')} // Navigate to the Login page
+              />
+            )}
+            {isAuthenticated && (
+              <Button
+                text="DashBoard"
+                className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
+                onClick={() => navigate('/app')} // Navigate to the Login page
+              />
+            )}
           </div>
 
           {/* Mobile menu toggle button */}
