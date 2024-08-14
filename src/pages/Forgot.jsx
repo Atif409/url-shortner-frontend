@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { registerUser } from '../services/user.api';
+import { forgotPassword } from '../services/user.api';
 import toast from 'react-simple-toasts';
+import { useNavigate } from 'react-router-dom';
+import { localStorageService } from '../utils/localStorageService';
 const Forgot = () => {
   const [email, setEmail] = useState('');
 
@@ -11,19 +13,14 @@ const Forgot = () => {
 
   const handleEmailChange = (e) => setEmail(e.target.value);
 
-  const elementRef = useRef(null);
   const [width, setWidth] = useState(0);
 
+  const navigate = useNavigate();
   useEffect(() => {
-    // if (elementRef.current) {
-    console.log(window.innerWidth);
     setWidth(window.innerWidth);
-    // }
 
     const handleResize = () => {
-      // if (elementRef.current) {
       setWidth(window.innerWidth);
-      // }
     };
 
     window.addEventListener('resize', handleResize);
@@ -33,10 +30,16 @@ const Forgot = () => {
     };
   }, []);
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleForgot = async () => {
     if (!email) {
       toast('Email field is required');
-      return;
+    } else if (!validateEmail(email)) {
+      toast('Email is not valid');
     }
 
     // Add your Forgot logic here
@@ -48,12 +51,16 @@ const Forgot = () => {
         setIsForgotLoading(true);
         const response = await forgotPassword(userData);
         toast(response.data.message);
-
-        setIsForgotLoading(false);
+        if (response.data.success) {
+          localStorageService.setItem('user-reset-email', email);
+          toast('Password reset code is sended to your email. Please check your email.');
+          navigate('/change-password');
+        }
       } catch (error) {
         toast('Sorry! Something went wrong. Please try again later.');
       }
     }
+    setIsForgotLoading(false);
   };
   return (
     <div className="overflow-hidden relative ">

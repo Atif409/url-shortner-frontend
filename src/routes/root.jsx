@@ -11,9 +11,11 @@ import ManageLinks from '../pages/ManageLinks';
 import Analytics from '../pages/Analytics';
 import ProfileSettings from '../pages/ProfileSettings';
 import Forgot from '../pages/Forgot';
-import UserApp from '../pages/UserApp';
 import ProtectedRoute from '../components/ProtectedRoute';
 import PublicRoute from '../components/PublicRoute';
+import CreatePassword from '../pages/CreatePassword';
+import AppPageLayout from '../layout/AppPageLayout';
+import Dashboard from '../pages/Dashboard';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -40,28 +42,38 @@ const router = createBrowserRouter([
     element: <PublicRoute element={<SignUp />} />,
   },
   {
-    path: '/create-link',
-    element: <CreateLinks />,
-  },
-  {
-    path: '/manage-links',
-    element: <ManageLinks />,
-  },
-  {
-    path: '/analytics',
-    element: <Analytics />,
-  },
-  {
-    path: '/profile-settings',
-    element: <ProfileSettings />,
-  },
-  {
-    path: '/forgot',
+    path: '/forgot-password',
     element: <Forgot />,
   },
   {
+    path: '/change-password',
+    element: <CreatePassword />,
+  },
+  {
     path: '/app',
-    element: <ProtectedRoute children={<UserApp />} />,
+    element: <ProtectedRoute children={<AppPageLayout />} />,
+    children: [
+      {
+        path: '',
+        element: <Dashboard />,
+      },
+      {
+        path: 'create-link',
+        element: <CreateLinks />,
+      },
+      {
+        path: 'manage-links',
+        element: <ManageLinks />,
+      },
+      {
+        path: 'analytics',
+        element: <Analytics />,
+      },
+      {
+        path: 'profile-settings',
+        element: <ProfileSettings />,
+      },
+    ],
   },
 ]);
 

@@ -61,12 +61,14 @@ const SignUp = () => {
         setIsSignUpLoading(true);
         const response = await registerUser(userData);
         toast(response.data.message);
-        navigate('/login');
-        setIsSignUpLoading(false);
+        if (response.data.success) {
+          navigate('/login');
+        }
       } catch (error) {
         toast('Sorry! Something went wrong. Please try again later.');
       }
     }
+    setIsSignUpLoading(false);
   };
   return (
     <div className="overflow-hidden relative ">

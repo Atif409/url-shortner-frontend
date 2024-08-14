@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CreateLinks from '../pages/CreateLinks';
 import { localStorageService } from '../utils/localStorageService';
 
-const SideBar = () => {
+export const SideBar = ({ children }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   const handleDashboardClick = () => {
@@ -56,8 +56,8 @@ const SideBar = () => {
   ];
 
   return (
-    <div className=" grid grid-cols-12">
-      <nav className="bg-primary-b p-4 col-span-2">
+    <div className=" grid grid-cols-12 h-[100vh]">
+      <nav className="bg-primary-b p-4 col-span-2 h-[100vh]">
         <ul>
           {sidebarItems.map((item, index) => (
             <li
@@ -82,9 +82,7 @@ const SideBar = () => {
         </ul>
       </nav>
 
-      <div className=" bg-primary-c col-span-10"></div>
+      <div className=" bg-primary-c col-span-10 h-[100vh] overflow-y-auto">{children}</div>
     </div>
   );
 };
-
-export default SideBar;

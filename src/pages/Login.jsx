@@ -59,11 +59,11 @@ const Login = () => {
           navigate('/app');
         }
         toast(response.data.message);
-        setIsLoginLoading(false);
       } catch (error) {
         toast('Sorry! Something went wrong. Please try again later.');
       }
     }
+    setIsLoginLoading(false);
   };
 
   return (
