@@ -68,7 +68,7 @@ export const SideBar = ({ children }) => {
     { path: 'create-link', icon: 'link', text: 'Create Links', onClick: handleCreateLinksClick },
     { path: 'create-smart-link', icon: 'magic', text: 'Create Smart Links', onClick: handleCreateSmartLinksClick },
     { path: 'create-qrcode', icon: 'qrcode', text: 'Create QR Codes', onClick: handleCreateQRCodesClick },
-    { path: 'manage-link', icon: 'cog', text: 'Manage Links', onClick: handleManageLinksClick },
+    { path: 'manage-links', icon: 'cog', text: 'Manage Links', onClick: handleManageLinksClick },
     { path: 'analytics', icon: 'chart-line', text: 'Analytics', onClick: handleAnalyticsClick },
     { path: 'profile-settings', icon: 'user', text: 'Profile Settings', onClick: handleProfileSettingsClick },
     { path: 'api-access', icon: 'key', text: 'API Access', onClick: handleAPIAccessClick },

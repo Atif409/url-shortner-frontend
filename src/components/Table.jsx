@@ -14,6 +14,7 @@ const Table = ({ headers, data, rowRenderer, className = '', headerClassName = '
             ))}
           </tr>
         </thead>
+        
         <tbody>
           {data.map((row, index) => (
             <tr key={index} className={`${index % 2 === 0 ? 'bg-primary-f' : ''} ${rowClassName}`}>
