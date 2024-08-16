@@ -5,17 +5,13 @@ import useThemeStorage from '../hooks/useThemeStorage';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-    const [theme, switchTheme] = useThemeStorage(DEFAULT_THEME);
+  const [theme, switchTheme] = useThemeStorage(DEFAULT_THEME);
 
-    useEffect(() => {
-        applyTheme(theme);
-    }, [theme]);
-    return (
-        <ThemeContext.Provider value={{ theme, switchTheme }}>
-            {children}
-        </ThemeContext.Provider>
-    );
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+  return <ThemeContext.Provider value={{ theme, switchTheme }}>{children}</ThemeContext.Provider>;
 }
 export function useTheme() {
-    return useContext(ThemeContext);
+  return useContext(ThemeContext);
 }
