@@ -19,6 +19,10 @@ export const SideBar = ({ children }) => {
       });
     }
   }, [location.pathname]);
+  const handleHomeClick = () => {
+    navigate('/');
+    console.log('Home clicked');
+  };
   const handleDashboardClick = () => {
     navigate('/app');
     console.log('Dashboard clicked');
@@ -72,6 +76,7 @@ export const SideBar = ({ children }) => {
     { path: 'analytics', icon: 'chart-line', text: 'Analytics', onClick: handleAnalyticsClick },
     { path: 'profile-settings', icon: 'user', text: 'Profile Settings', onClick: handleProfileSettingsClick },
     { path: 'api-access', icon: 'key', text: 'API Access', onClick: handleAPIAccessClick },
+    { path: '/', icon: 'home', text: 'Home', onClick: handleHomeClick },
     { path: '', icon: 'sign-out-alt', text: 'Log out', onClick: handleLogoutClick },
   ];
 
