@@ -24,7 +24,7 @@ export const SideBar = ({ children }) => {
     console.log('Home clicked');
   };
   const handleDashboardClick = () => {
-    navigate('/app');
+    navigate('/app/dashboard');
     console.log('Dashboard clicked');
   };
 
@@ -68,6 +68,7 @@ export const SideBar = ({ children }) => {
   };
 
   const sidebarItems = [
+    { path: '/', icon: 'home', text: 'Home', onClick: handleHomeClick },
     { path: 'dashboard', icon: 'tachometer-alt', text: 'Dashboard', onClick: handleDashboardClick },
     { path: 'create-link', icon: 'link', text: 'Create Links', onClick: handleCreateLinksClick },
     { path: 'create-smart-link', icon: 'magic', text: 'Create Smart Links', onClick: handleCreateSmartLinksClick },
@@ -76,7 +77,7 @@ export const SideBar = ({ children }) => {
     { path: 'analytics', icon: 'chart-line', text: 'Analytics', onClick: handleAnalyticsClick },
     { path: 'profile-settings', icon: 'user', text: 'Profile Settings', onClick: handleProfileSettingsClick },
     { path: 'api-access', icon: 'key', text: 'API Access', onClick: handleAPIAccessClick },
-    { path: '/', icon: 'home', text: 'Home', onClick: handleHomeClick },
+
     { path: '', icon: 'sign-out-alt', text: 'Log out', onClick: handleLogoutClick },
   ];
 
@@ -106,7 +107,6 @@ export const SideBar = ({ children }) => {
           ))}
         </ul>
       </nav>
-
       <div className=" bg-primary-c col-span-10 h-[100vh] overflow-y-auto">{children}</div>
     </div>
   );

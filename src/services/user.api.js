@@ -28,7 +28,7 @@ const loginUser = async (data) => {
   const formattedData = prepareParams(data);
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/users/login`, // Your API endpoint
+      `${import.meta.env.VITE_BASE_URL}/users/login`, 
       formattedData, // Formatted data
       {
         headers: {
