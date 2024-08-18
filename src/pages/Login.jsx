@@ -53,7 +53,8 @@ const Login = () => {
         console.log(response, response.success);
         if (response.data.success) {
           const storedData = localStorageService.setItem('token', response.data.data.token);
-          if (storedData) {
+          const storedUserData = localStorageService.setItem('user_id', response.data.data.user_id);
+          if (storedData && storedUserData) {
             setData(storedData);
           }
           navigate('/app');
