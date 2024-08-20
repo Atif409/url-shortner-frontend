@@ -16,6 +16,7 @@ import PublicRoute from '../components/PublicRoute';
 import CreatePassword from '../pages/CreatePassword';
 import AppPageLayout from '../layout/AppPageLayout';
 import Dashboard from '../pages/Dashboard';
+import SmartLinks from '../pages/SmartLinks';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: 'profile-settings',
         element: <ProfileSettings />,
+      },
+      {
+        path: 'create-smart-links',
+        element: <SmartLinks />,
       },
     ],
   },
