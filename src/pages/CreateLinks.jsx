@@ -18,6 +18,7 @@ const CreateLinks = () => {
   const [isPasswordToggled, setIsPasswordToggled] = useState(false);
   const [linkCreating, setLinkCreating] = useState(false);
   const [url, setUrl] = useState('');
+  const [title, setTitle] = useState('');
   const [password, setPassword] = useState('');
   const [alias, setAlias] = useState('');
   const [shortId, setShortId] = useState('');
@@ -93,6 +94,7 @@ const CreateLinks = () => {
     if (id) {
       linkData.id = id;
     }
+    linkData.title = title;
     return linkData;
   };
   const createShortLink = async () => {
@@ -186,7 +188,17 @@ const CreateLinks = () => {
             <h2 className="font-bold text-secondary-a sm:text-2xl text-md lg:tracking-widest tracking-wider mt-8">
               Options (Customize link behaviour)
             </h2>
-
+            <div className="mt-2">
+              <Input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Title for better Recognition"
+                label="Title: "
+                labelClassName=" text-secondary-a sm:text-1xl font-bold tracking-wider"
+                className="w-80 h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
+              />
+            </div>
             <div className="mt-4">
               <ToggleButton
                 title="Set Custom Alias (optional)"

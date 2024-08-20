@@ -3,345 +3,141 @@ import Table from '../components/Table';
 import Button from '../components/Button';
 import { NavLink } from 'react-router-dom';
 import Input from '../components/Input';
-
+import Loader from '../components/Loader';
+import { deleteLink, getLinkList } from '../services/link.api';
+import { localStorageService } from '../utils/localStorageService';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-simple-toasts';
 const ManageLinks = () => {
   const [records, setRecords] = useState(0);
   const [link, setLink] = useState('');
-  const [currentPage, setCurrentPage] = useState(0);
+  const [linkLoading, setLinkLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [deletingLink, setDeletingLink] = useState(null);
   const recordsPerPage = 25;
+  const navigate = useNavigate();
 
-  const handleLinkChange = (e) => setLink(e.target.value);
+  const deleteLinkData = async (row) => {
+    const promptAns = confirm(
+      `Are you sure you want to delete this link: ${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}?`
+    );
+    console.log(promptAns);
+    if (!promptAns) {
+      return;
+    }
+    setDeletingLink(row._id);
+    try {
+      const deleteLinkData = await deleteLink({ id: row._id });
+      if (deleteLinkData.data.success == true) {
+        toast('Link Delete Successfully');
+        fetchLinkList();
+      } else {
+        toast('Failed to delete link');
+      }
+    } catch (error) {
+      toast('Sorry Failed to delete link. Try again later!');
+      console.log('Error', error);
+    }
+    setDeletingLink(null);
+  };
+  const fetchLinkList = async () => {
+    setLinkLoading(true);
+    const linkData = await getLinkList({
+      user_id: localStorageService.getItem('user_id'),
+      page: page,
+      total: limit,
+      keyword: link,
+    });
+    console.log(linkData);
+    if (linkData.data.success == true) {
+      setData(linkData.data.data.records);
+      setTotalRecords(linkData.data.data.totalCount);
+      setTotalPages(linkData.data.data.totalPages);
+      setPage(linkData.data.data.currentPage);
+    } else {
+      setErrorMessage(linkData.data.message);
+      setError(true);
+    }
+    setLinkLoading(false);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(
+      (oldValue) => {
+        if (oldValue == link) {
+          fetchLinkList();
+        }
+      },
+      2000,
+      link
+    );
+    return () => clearTimeout(timer);
+  }, [link]);
+
+  useEffect(() => {
+    console.log('Called Page');
+    fetchLinkList();
+  }, [page]);
+  const handleLinkChange = (e) => {
+    console.log(e.target.value);
+    setLink(e.target.value);
+  };
 
   const headers = ['Title', 'Original URL', 'Short URL', 'Clicks', 'Actions'];
- const data = [
-   {
-     title: 'Blog Post',
-     originalUrl: 'https://myblog.com/how-to-code',
-     shortUrl: 'https://urlshorten.com/abc123',
-     clicks: 542,
-   },
-   {
-     title: 'Product Page',
-     originalUrl: 'https://store.com/product/gadget-2000',
-     shortUrl: 'https://urlshorten.com/def456',
-     clicks: 321,
-   },
-   {
-     title: 'Landing Page',
-     originalUrl: 'https://mywebsite.com/landing-page',
-     shortUrl: 'https://urlshorten.com/ghi789',
-     clicks: 907,
-   },
-   {
-     title: 'Portfolio',
-     originalUrl: 'https://portfolio.com/johndoe',
-     shortUrl: 'https://urlshorten.com/jkl012',
-     clicks: 678,
-   },
-   {
-     title: 'Event Registration',
-     originalUrl: 'https://events.com/register/webinar',
-     shortUrl: 'https://urlshorten.com/mno345',
-     clicks: 194,
-   },
-   {
-     title: 'Job Application',
-     originalUrl: 'https://jobs.com/apply/software-engineer',
-     shortUrl: 'https://urlshorten.com/pqr678',
-     clicks: 245,
-   },
-   {
-     title: 'Recipe Blog',
-     originalUrl: 'https://recipes.com/grilled-chicken',
-     shortUrl: 'https://urlshorten.com/stu901',
-     clicks: 321,
-   },
-   {
-     title: 'YouTube Video',
-     originalUrl: 'https://youtube.com/watch?v=abc123',
-     shortUrl: 'https://urlshorten.com/vwx234',
-     clicks: 1024,
-   },
-   {
-     title: 'Online Course',
-     originalUrl: 'https://learningplatform.com/course/react-basics',
-     shortUrl: 'https://urlshorten.com/yz567',
-     clicks: 578,
-   },
-   {
-     title: 'News Article',
-     originalUrl: 'https://news.com/2024-tech-trends',
-     shortUrl: 'https://urlshorten.com/abc890',
-     clicks: 111,
-   },
-   {
-     title: 'GitHub Repo',
-     originalUrl: 'https://github.com/user/project',
-     shortUrl: 'https://urlshorten.com/def321',
-     clicks: 654,
-   },
-   {
-     title: 'Ebook Download',
-     originalUrl: 'https://ebooks.com/free-download',
-     shortUrl: 'https://urlshorten.com/ghi654',
-     clicks: 892,
-   },
-   {
-     title: 'Charity Donation',
-     originalUrl: 'https://charity.com/donate-now',
-     shortUrl: 'https://urlshorten.com/jkl987',
-     clicks: 274,
-   },
-   {
-     title: 'Survey Form',
-     originalUrl: 'https://survey.com/customer-feedback',
-     shortUrl: 'https://urlshorten.com/mno876',
-     clicks: 411,
-   },
-   {
-     title: 'Fitness Guide',
-     originalUrl: 'https://fitnessblog.com/10-minute-workout',
-     shortUrl: 'https://urlshorten.com/pqr543',
-     clicks: 662,
-   },
-   {
-     title: 'Photography Portfolio',
-     originalUrl: 'https://photos.com/janedoe',
-     shortUrl: 'https://urlshorten.com/stu210',
-     clicks: 900,
-   },
-   {
-     title: 'Online Store',
-     originalUrl: 'https://shoponline.com/new-arrivals',
-     shortUrl: 'https://urlshorten.com/vwx123',
-     clicks: 390,
-   },
-   {
-     title: 'Case Study',
-     originalUrl: 'https://casestudies.com/marketing-strategy',
-     shortUrl: 'https://urlshorten.com/yz456',
-     clicks: 275,
-   },
-   {
-     title: 'Resume',
-     originalUrl: 'https://resume.com/johndoe',
-     shortUrl: 'https://urlshorten.com/abc789',
-     clicks: 832,
-   },
-   {
-     title: 'Infographic',
-     originalUrl: 'https://infographics.com/social-media-trends',
-     shortUrl: 'https://urlshorten.com/def654',
-     clicks: 113,
-   },
-   {
-     title: 'Tech Forum',
-     originalUrl: 'https://techforum.com/discussion/react-vs-vue',
-     shortUrl: 'https://urlshorten.com/ghi321',
-     clicks: 567,
-   },
-   {
-     title: 'Podcast Episode',
-     originalUrl: 'https://podcast.com/episode/1',
-     shortUrl: 'https://urlshorten.com/jkl012',
-     clicks: 431,
-   },
-   {
-     title: 'Freelance Portfolio',
-     originalUrl: 'https://freelancer.com/janedoe',
-     shortUrl: 'https://urlshorten.com/mno345',
-     clicks: 223,
-   },
-   {
-     title: 'Donation Page',
-     originalUrl: 'https://support.com/donate-here',
-     shortUrl: 'https://urlshorten.com/pqr678',
-     clicks: 300,
-   },
-   {
-     title: 'Project Showcase',
-     originalUrl: 'https://projects.com/coding-challenge',
-     shortUrl: 'https://urlshorten.com/stu901',
-     clicks: 505,
-   },
-   {
-     title: 'Travel Blog',
-     originalUrl: 'https://travelblog.com/top-10-destinations',
-     shortUrl: 'https://urlshorten.com/vwx234',
-     clicks: 670,
-   },
-   {
-     title: 'Cooking Tutorial',
-     originalUrl: 'https://cookingblog.com/how-to-make-pasta',
-     shortUrl: 'https://urlshorten.com/yz567',
-     clicks: 792,
-   },
-   {
-     title: 'Digital Magazine',
-     originalUrl: 'https://magazine.com/august-2024-issue',
-     shortUrl: 'https://urlshorten.com/abc890',
-     clicks: 234,
-   },
-   {
-     title: 'Non-Profit Campaign',
-     originalUrl: 'https://nonprofit.com/support-our-mission',
-     shortUrl: 'https://urlshorten.com/def321',
-     clicks: 101,
-   },
-   {
-     title: 'Webinar Replay',
-     originalUrl: 'https://webinars.com/replay/seo-basics',
-     shortUrl: 'https://urlshorten.com/ghi654',
-     clicks: 510,
-   },
-   {
-     title: 'Developer Blog',
-     originalUrl: 'https://devblog.com/why-use-typescript',
-     shortUrl: 'https://urlshorten.com/jkl987',
-     clicks: 675,
-   },
-   {
-     title: 'Fashion Store',
-     originalUrl: 'https://fashionstore.com/summer-collection',
-     shortUrl: 'https://urlshorten.com/mno876',
-     clicks: 419,
-   },
-   {
-     title: 'Movie Review',
-     originalUrl: 'https://reviews.com/new-movie-release',
-     shortUrl: 'https://urlshorten.com/pqr543',
-     clicks: 283,
-   },
-   {
-     title: 'Real Estate Listing',
-     originalUrl: 'https://realestate.com/listing/house-for-sale',
-     shortUrl: 'https://urlshorten.com/stu210',
-     clicks: 589,
-   },
-   {
-     title: 'Photography Tips',
-     originalUrl: 'https://photo-tips.com/learn-landscape-photography',
-     shortUrl: 'https://urlshorten.com/vwx123',
-     clicks: 311,
-   },
-   {
-     title: 'Freelance Job',
-     originalUrl: 'https://jobs.com/apply/remote-developer',
-     shortUrl: 'https://urlshorten.com/yz456',
-     clicks: 187,
-   },
-   {
-     title: 'Product Comparison',
-     originalUrl: 'https://compareproducts.com/best-smartphones-2024',
-     shortUrl: 'https://urlshorten.com/abc789',
-     clicks: 444,
-   },
-   {
-     title: 'Home Workout Plan',
-     originalUrl: 'https://fitnessblog.com/30-day-home-workout',
-     shortUrl: 'https://urlshorten.com/def654',
-     clicks: 720,
-   },
-   {
-     title: 'Design Portfolio',
-     originalUrl: 'https://designportfolio.com/janedoe',
-     shortUrl: 'https://urlshorten.com/ghi321',
-     clicks: 329,
-   },
-   {
-     title: 'SEO Guide',
-     originalUrl: 'https://seoguide.com/2024-optimization-strategies',
-     shortUrl: 'https://urlshorten.com/jkl012',
-     clicks: 567,
-   },
-   {
-     title: 'Recipe Collection',
-     originalUrl: 'https://cookingblog.com/20-easy-recipes',
-     shortUrl: 'https://urlshorten.com/mno345',
-     clicks: 892,
-   },
-   {
-     title: 'Travel Tips',
-     originalUrl: 'https://traveltips.com/packing-guide',
-     shortUrl: 'https://urlshorten.com/pqr678',
-     clicks: 153,
-   },
-   {
-     title: 'Gaming News',
-     originalUrl: 'https://gamingnews.com/upcoming-releases',
-     shortUrl: 'https://urlshorten.com/stu901',
-     clicks: 788,
-   },
-   {
-     title: 'Health and Wellness',
-     originalUrl: 'https://wellnessblog.com/healthy-living-tips',
-     shortUrl: 'https://urlshorten.com/vwx234',
-     clicks: 477,
-   },
-   {
-     title: 'Startup Guide',
-     originalUrl: 'https://startupguide.com/launching-a-business',
-     shortUrl: 'https://urlshorten.com/yz567',
-     clicks: 399,
-   },
-   {
-     title: 'Education Blog',
-     originalUrl: 'https://educationblog.com/study-tips-for-students',
-     shortUrl: 'https://urlshorten.com/abc890',
-     clicks: 267,
-   },
-   {
-     title: 'Book Summary',
-     originalUrl: 'https://booksummary.com/top-10-business-books',
-     shortUrl: 'https://urlshorten.com/def321',
-     clicks: 182,
-   },
-   {
-     title: 'Fashion Blog',
-     originalUrl: 'https://fashionblog.com/how-to-style-outfits',
-     shortUrl: 'https://urlshorten.com/ghi654',
-     clicks: 234,
-   },
- ];
-
 
   useEffect(() => {
     setRecords(data.length);
   }, [data]);
-
-  const startIndex = currentPage * recordsPerPage;
-  const paginatedData = data.slice(startIndex, startIndex + recordsPerPage);
 
   const rowRenderer = (row, index) => {
     return (
       <>
         <td className="py-2 px-4 text-center">{row.title}</td>
         <td className="py-2 px-4 text-center">
-          <NavLink to={row.originalUrl} className="text-secondary-a hover:underline">
-            {row.originalUrl}
+          <NavLink to={row.original_link} className="text-secondary-a hover:underline">
+            {row.original_link}
           </NavLink>
         </td>
         <td className="py-2 px-4 flex justify-center items-center">
-          <NavLink to={row.shortUrl} className="text-secondary-a  hover:underline">
-            {row.shortUrl}
+          <NavLink
+            to={`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`}
+            className="text-secondary-a  hover:underline"
+          >
+            {import.meta.env.VITE_APP_BASE_URL}/{row.shorten_link}
           </NavLink>
         </td>
-        <td className="py-2 px-4 text-center">{row.clicks}</td>
+        <td className="py-2 px-4 text-center">{row.clickCount}</td>
         <td className="py-2 px-4 flex justify-center items-center space-x-2">
           <Button
             text="Edit"
             className="bg-primary-a text-secondary-b hover:opacity-75 rounded-md h-8"
-            onClick={() => console.log('Edit clicked', index)}
+            onClick={() => navigate(`/app/create-link/${row._id}`)}
           />
           <Button
             text="Copy"
             className="bg-[#008000] text-secondary-b hover:opacity-75 rounded-md h-8"
-            onClick={() => console.log('Copy clicked', index)}
+            onClick={() => {
+              navigator.clipboard
+                .writeText(`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`)
+                .then(() => {
+                  toast('Short Link Copied!');
+                })
+                .catch(() => {
+                  toast('Failed to copy!');
+                });
+            }}
           />
           <Button
             text="Delete"
+            onClick={() => deleteLinkData(row)}
+            isLoading={deletingLink == row._id}
             className="bg-[#ff0000] text-secondary-b hover:opacity-65 rounded-md h-8"
-            onClick={() => console.log('Delete clicked', index)}
           />
           <Button
             text="QRCode"
@@ -357,26 +153,28 @@ const ManageLinks = () => {
       </>
     );
   };
-
+  if (linkLoading == true) {
+    return <Loader title="Loading..." />;
+  }
   return (
     <div className="p-2">
       <h2 className="lg:text-4xl text-2xl font-semibold mb-4 text-secondary-a lg:pl-8 tracking-wider pt-8">
         Manage Links
       </h2>
-
-      <div className="lg:pl-12 lg:mt-12">
+      <div className="lg:pl-12 lg:mt-12  flex-row flex">
         <Input
           type="text"
           value={link}
           onChange={handleLinkChange}
           placeholder="Search links...."
-          className="sm:w-[40%] w-[80%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
+          className="w-80 h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
         />
+        <Button text="Search" className="bg-primary-b text-secondary-b hover:opacity-75 rounded-md h-10 ml-5" />
       </div>
 
       <div className="flex flex-col items-center justify-center w-full">
         <div className="flex justify-end items-end w-full lg:pr-10 pr-2">
-          <p className="text-lg text-secondary-a mt-4">Total Records: {records}</p>
+          <p className="text-lg text-secondary-a mt-4">Total Records: {totalRecords}</p>
         </div>
         <div
           className="w-full lg:pl-8 lg:pr-8 mt-2
@@ -385,7 +183,7 @@ const ManageLinks = () => {
         >
           <Table
             headers={headers}
-            data={paginatedData}
+            data={data}
             rowRenderer={rowRenderer}
             className="border"
             headerClassName="bg-primary-b text-secondary-b "
@@ -393,32 +191,39 @@ const ManageLinks = () => {
           />
         </div>
         <div className="flex justify-end mt-4 w-full lg:pr-8">
-          <div className="flex flex-row items-center border-2 border-primary-f  w-52 rounded-xl h-8">
-            <div
-              className={`hover:bg-primary-f rounded-tl-xl rounded-bl-xl ${
-                currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
+          <div className="flex flex-row items-center border-2 border-primary-f  rounded-xl h-8">
+            <div className={`hover:bg-primary-f rounded-tl-xl rounded-bl-xl `}>
               <Button
                 text="Previous"
                 className="m-0 text-secondary-c font-bold hover:text-secondary-a h-8"
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-                disabled={currentPage === 0}
+                onClick={() =>
+                  setPage(() => {
+                    if (page == 1) return;
+                    setPage(page - 1);
+                  })
+                }
+                disabled={page == 1}
               />
             </div>
-            <span className="bg-primary-b w-12 h-8 text-center text-secondary-b place-content-center font-bold">
-              {currentPage + 1}
-            </span>
-            <div
-              className={`hover:bg-primary-f rounded-tr-xl rounded-br-xl ${
-                startIndex + recordsPerPage >= records ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
+            {Array.from({ length: totalPages }, (_, index) => (
+              <div
+                onClick={() => setPage(index + 1)}
+                key={index}
+                className={`cursor-pointer border-r-2  ps-2 pe-2 h-8 text-center ${index == page - 1 ? 'bg-primary-b text-secondary-b' : ''} place-content-center font-bold`}
+              >
+                {index + 1}
+              </div>
+            ))}
+            <div className={`hover:bg-primary-f rounded-tr-xl rounded-br-xl`}>
               <Button
                 text="Next"
                 className="m-0 text-secondary-c font-bold hover:text-secondary-a h-8"
-                onClick={() => setCurrentPage((prev) => (startIndex + recordsPerPage < records ? prev + 1 : prev))}
-                disabled={startIndex + recordsPerPage >= records}
+                onClick={() => {
+                  if (page == totalPages) return;
+                  console.log('Page', page, totalPages);
+                  setPage(page + 1);
+                }}
+                disabled={page == totalPages}
               />
             </div>
           </div>

@@ -64,6 +64,7 @@ export const SideBar = ({ children }) => {
 
   const handleLogoutClick = () => {
     localStorageService.removeItem('token');
+    localStorageService.removeItem('user_id');
     window.location.reload();
   };
 

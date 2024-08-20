@@ -40,6 +40,7 @@ const SignUp = () => {
   };
 
   const handleSignUp = async () => {
+    alert('Sign Up');
     const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#\-:])[A-Za-z\d@$!%*?&#\-:]{8,}$/;
     if (!email || !password || !confirmPassword || !userName) {
       toast('All fields are required');
