@@ -18,11 +18,11 @@ const Dropdown = ({
         onChange={onChange}
         className={`border border-primary-b p-2 rounded-md ${selectClassName} focus:outline-none  `}
       >
-        <option value="" disabled className="bg-primary-d text-secondary-a">
+        <option value="" disabled className="bg-primary-a text-secondary-c hidden">
           {placeholder}
         </option>
         {options.map((option, index) => (
-          <option key={index} value={option.value ? option.value : option} className="bg-primary-b text-secondary-b">
+          <option key={index} value={option.value ? option.value : option} className="bg-primary-c text-secondary-a font-semibold">
             {option.label ? option.label : option.value ? option.value : option}
           </option>
         ))}

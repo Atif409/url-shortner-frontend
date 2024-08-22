@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import DraggableList from '../components/DraggableList';
 import Dropdown from '../components/Dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../components/Button';
@@ -23,8 +24,13 @@ const SmartLinks = () => {
   const [shortId, setShortId] = useState('');
   const [linkLoading, setLinkLoading] = useState(id ? true : false);
   const redirectOptions = ['Platform', 'Country', 'Device'];
+  const [modalPrIsOpen, setModalPrIsOpen] = useState(false);
+
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
+
+  const openPrModal = () => setModalPrIsOpen(true);
+  const closePrModal = () => setModalPrIsOpen(false);
   const redirectRuleTypeOptions = {
     Platform: ['iPhone', , 'iPad', 'Android', 'Microsoft Windows'],
     Country: countryNames,
@@ -37,6 +43,7 @@ const SmartLinks = () => {
     setRulePr([...linkData.redirect_rule_priority]);
     handleUrlChange(linkData.original_link);
     setRedirectRules(linkData.redirect_rule);
+    setTitle(linkData.title);
   };
   useEffect(() => {}, [rulePr]);
   useEffect(() => {
@@ -166,24 +173,53 @@ const SmartLinks = () => {
           onChange={(e) => setRedirectRule(e.target.value)}
           className="sm:w-1/3 w-full  text-secondary-a"
         />
-        <Button
-          text="Add Redirect Rules"
-          className="bg-primary-b text-secondary-b rounded-xl h-8 mt-1 flex items-center justify-center "
-          onClick={handleAddRedirectRule}
-        />
+
         <div className="flex flex-col">
-          <Draggable onPosChange={getChangedPos} key={rulePr}>
-            {rulePr.map((word, idx) => {
-              return (
-                <div className="bg-primary-b border-2 border-primary-c text-primary-c p-[2px] rounded-[4px]" key={idx}>
-                  {word}
-                </div>
-              );
-            })}
-          </Draggable>
+          <Button
+            text="Add Redirect Rules"
+            className="bg-primary-b text-secondary-b rounded-xl h-8 mt-1 flex items-center justify-center "
+            onClick={handleAddRedirectRule}
+          />
+          <Button
+            text="Set Priority"
+            className="bg-primary-b text-secondary-b rounded-xl h-8 mt-1 flex items-center justify-center "
+            onClick={openPrModal}
+          />
         </div>
+        <Modal
+          isOpen={modalPrIsOpen}
+          onRequestClose={closePrModal}
+          contentLabel="Example Modal"
+          style={{
+            content: {
+              top: '50%',
+              left: '50%',
+              right: 'auto',
+              bottom: 'auto',
+              marginRight: '-50%',
+              transform: 'translate(-50%, -50%)',
+            },
+          }}
+        >
+          <div className="flex flex-col">
+            {/* <Draggable onPosChange={getChangedPos} key={rulePr}>
+              {rulePr.map((word, idx) => {
+                return (
+                  <div
+                    className="bg-primary-b border-2 border-primary-c text-primary-c p-[2px] rounded-[4px]"
+                    key={idx}
+                  >
+                    {word}
+                  </div>
+                );
+              })}
+            </Draggable> */}
+
+            <DraggableList initialState={rulePr} onChange={(items) => setRulePr(items)} />
+          </div>
+        </Modal>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 lg:pl-8 lg:pr-8">
         <Input
           type="text"
           value={title}
@@ -191,18 +227,19 @@ const SmartLinks = () => {
           placeholder="Title for better Recognition"
           label="Title: "
           labelClassName=" text-secondary-a sm:text-1xl font-bold tracking-wider"
-          className="w-80 h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
+          className="w-80 h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75 rounded-lg"
+        />
+        <Input
+          type="text"
+          value={url}
+          onChange={(e) => handleUrlChange(e.target.value)}
+          placeholder="https://urlShorten.com/"
+          label="Enter the default Destination Link (In Case of No Redirect Rules Applied)"
+          labelClassName="my-3 text-secondary-a sm:text-sm text-sm font-bold tracking-wider"
+          className="w-[80%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75 rounded-lg"
         />
       </div>
-      <Input
-        type="text"
-        value={url}
-        onChange={(e) => handleUrlChange(e.target.value)}
-        placeholder="https://urlShorten.com/"
-        label="Enter the default Destination Link (In Case of No Redirect Rules Applied)"
-        labelClassName="my-3 text-secondary-a sm:text-sm text-sm font-bold tracking-wider"
-        className="w-[80%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
-      />
+
       {/* Redirect Rules List */}
       {redirectRules &&
         redirectRules.map((rule, index) => (
@@ -247,12 +284,14 @@ const SmartLinks = () => {
             </div>
           </div>
         ))}
-      <Button
-        className="bg-primary-b text-secondary-b rounded-xl h-8 mt-1 flex items-center justify-center "
-        onClick={createSmartLink}
-        text={`${id ? 'Update' : 'Create'} Smart Link`}
-        isLoading={linkCreating}
-      />
+      <div className="lg:pl-8 lg:pr-8 mt-4">
+        <Button
+          className="bg-primary-b text-secondary-b rounded-xl h-8 mt-1 flex items-center justify-center "
+          onClick={createSmartLink}
+          text={`${id ? 'Update' : 'Create'} Smart Link`}
+          isLoading={linkCreating}
+        />
+      </div>
     </div>
   );
 };
