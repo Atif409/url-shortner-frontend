@@ -81,6 +81,8 @@ const CreateLinks = () => {
       is_tracking_enabled: linkTracking,
       is_qr_code_enabled: qrCode,
       is_smart_link: false,
+      redirect_rule: JSON.stringify([]),
+      redirect_rule_priority: JSON.stringify([]),
     };
     if (isPasswordToggled) {
       linkData.password = password;
@@ -154,7 +156,7 @@ const CreateLinks = () => {
             <button onClick={closeModal}>Close</button>
           </Modal>
           <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
-            Create Short Links
+            {id ? 'Update' : 'Create'} Short Links
           </h1>
 
           <div className="sm:mt-8 mt-2 w-full">

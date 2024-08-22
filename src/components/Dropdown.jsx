@@ -22,8 +22,8 @@ const Dropdown = ({
           {placeholder}
         </option>
         {options.map((option, index) => (
-          <option key={index} value={option.value} className="bg-primary-b text-secondary-b">
-            {option.label}
+          <option key={index} value={option.value ? option.value : option} className="bg-primary-b text-secondary-b">
+            {option.label ? option.label : option.value ? option.value : option}
           </option>
         ))}
       </select>
@@ -33,12 +33,6 @@ const Dropdown = ({
 
 Dropdown.propTypes = {
   title: PropTypes.string,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    })
-  ).isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

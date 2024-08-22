@@ -82,6 +82,10 @@ const router = createBrowserRouter([
         path: 'create-smart-links',
         element: <SmartLinks />,
       },
+      {
+        path: 'create-smart-links/:id',
+        element: <SmartLinks />,
+      },
     ],
   },
 ]);

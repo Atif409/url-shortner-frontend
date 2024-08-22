@@ -89,7 +89,7 @@ const ManageLinks = () => {
     setLink(e.target.value);
   };
 
-  const headers = ['Title', 'Original URL', 'Short URL', 'Clicks', 'Actions'];
+  const headers = ['Title', 'Original URL', 'Short URL', 'Clicks', 'Smart Link', 'Actions'];
 
   useEffect(() => {
     setRecords(data.length);
@@ -113,11 +113,18 @@ const ManageLinks = () => {
           </NavLink>
         </td>
         <td className="py-2 px-4 text-center">{row.clickCount}</td>
+        <td className="py-2 px-4 text-center">{row.is_smart_link ? 'Yes' : 'No'}</td>
         <td className="py-2 px-4 flex justify-center items-center space-x-2">
           <Button
             text="Edit"
             className="bg-primary-a text-secondary-b hover:opacity-75 rounded-md h-8"
-            onClick={() => navigate(`/app/create-link/${row._id}`)}
+            onClick={() => {
+              if (row.is_smart_link) {
+                navigate(`/app/create-smart-links/${row._id}`);
+              } else {
+                navigate(`/app/create-link/${row._id}`);
+              }
+            }}
           />
           <Button
             text="Copy"
