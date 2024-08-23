@@ -5,8 +5,19 @@ import Input from '../components/Input';
 import { localStorageService } from '../utils/localStorageService';
 
 import { loginUser } from '../services/user.api';
-import toast from 'react-simple-toasts';
+
 import { useNavigate } from 'react-router-dom';
+import { createToast } from 'react-simple-toasts';
+const customToast = createToast({
+  duration: 3000,
+  theme: 'dark',
+  className: 'custom-toast',
+  clickClosable: true,
+  position: 'top-right',
+  maxVisibleToasts: 1,
+
+  render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
+});
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,11 +49,11 @@ const Login = () => {
   const handleLogIn = async () => {
     const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#\-:])[A-Za-z\d@$!%*?&#\-:]{8,}$/;
     if (!password || !email) {
-      toast('All fields are required');
+      customToast('All fields are required');
     } else if (!validateEmail(email)) {
-      toast('Email is not valid');
+      customToast('Email is not valid');
     } else if (passwordCriteria.test(password) == false) {
-      toast(
+      customToast(
         'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.'
       );
     } else {
@@ -59,9 +70,9 @@ const Login = () => {
           }
           navigate('/app');
         }
-        toast(response.data.message);
+        customToast(response.data.message);
       } catch (error) {
-        toast('Sorry! Something went wrong. Please try again later.');
+        customToast('Sorry! Something went wrong. Please try again later.');
       }
     }
     setIsLoginLoading(false);

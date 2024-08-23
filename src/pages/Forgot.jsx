@@ -6,6 +6,17 @@ import { forgotPassword } from '../services/user.api';
 import toast from 'react-simple-toasts';
 import { useNavigate } from 'react-router-dom';
 import { localStorageService } from '../utils/localStorageService';
+import { createToast } from 'react-simple-toasts';
+const customToast = createToast({
+  duration: 3000,
+  theme: 'dark',
+  className: 'custom-toast',
+  clickClosable: true,
+  position: 'top-right',
+  maxVisibleToasts: 1,
+
+  render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
+});
 const Forgot = () => {
   const [email, setEmail] = useState('');
 
@@ -37,9 +48,9 @@ const Forgot = () => {
 
   const handleForgot = async () => {
     if (!email) {
-      toast('Email field is required');
+      customToast('Email field is required');
     } else if (!validateEmail(email)) {
-      toast('Email is not valid');
+      customToast('Email is not valid');
     }
 
     // Add your Forgot logic here
@@ -50,14 +61,14 @@ const Forgot = () => {
       try {
         setIsForgotLoading(true);
         const response = await forgotPassword(userData);
-        toast(response.data.message);
+        customToast(response.data.message);
         if (response.data.success) {
           localStorageService.setItem('user-reset-email', email);
-          toast('Password reset code is sended to your email. Please check your email.');
+          customToast('Password reset code is sended to your email. Please check your email.');
           navigate('/change-password');
         }
       } catch (error) {
-        toast('Sorry! Something went wrong. Please try again later.');
+        customToast('Sorry! Something went wrong. Please try again later.');
       }
     }
     setIsForgotLoading(false);

@@ -10,6 +10,17 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-simple-toasts';
 import Modal from 'react-modal';
 import QRCode from 'react-qr-code';
+import { createToast } from 'react-simple-toasts';
+const customToast = createToast({
+  duration: 3000,
+  theme: 'dark',
+  className: 'custom-toast',
+  clickClosable: true,
+  position: 'top-right',
+  maxVisibleToasts: 1,
+
+  render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
+});
 const ManageLinks = () => {
   const [records, setRecords] = useState(0);
   const [link, setLink] = useState('');
@@ -43,13 +54,13 @@ const ManageLinks = () => {
     try {
       const deleteLinkData = await deleteLink({ id: row._id });
       if (deleteLinkData.data.success == true) {
-        toast('Link Delete Successfully');
+        customToast('Link Delete Successfully');
         fetchLinkList();
       } else {
-        toast('Failed to delete link');
+        customToast('Failed to delete link');
       }
     } catch (error) {
-      toast('Sorry Failed to delete link. Try again later!');
+      customToast('Sorry Failed to delete link. Try again later!');
       console.log('Error', error);
     }
     setDeletingLink(null);
@@ -121,24 +132,39 @@ const ManageLinks = () => {
             },
           }}
         >
+          <h5 className="text-sm text-secondary-a mb-4 font-semibold flex flex-col items-center justify-center">
+            <span>Your QR code for</span>
+            <span>{getQrCodeLinkString(data[linkIndex].shorten_link)}</span>
+          </h5>
           <div className="flex justify-center ">
             <QRCode size={128} value={getQrCodeLinkString(row.shorten_link)} />
           </div>
-          <button onClick={closeModal}>Close</button>
+
+          <div className="w-full flex items-center justify-center mt-4">
+            <Button
+              text="Close"
+              onClick={closeModal}
+              className="flex items-center justify-center bg-primary-b text-secondary-b  font-bold rounded-md hover:bg-primary-d transition"
+              iconShow={['fa-solid', 'xmark']}
+              iconClassName="text-xl "
+            />
+          </div>
         </Modal>
         <td className="py-2 px-4 text-center">{row.title}</td>
-        <td className="py-2 px-4 text-center">
-          <NavLink to={row.original_link} className="text-secondary-a hover:underline">
-            {row.original_link}
-          </NavLink>
+        <td className="py-2 px-4 text-center ">
+          <a href={row.original_link} className="text-secondary-a hover:underline" target="_blank">
+            {row.original_link.slice(0, 30)}
+            {row.original_link.length > 30 ? '...' : ''}
+          </a>
         </td>
         <td className="py-2 px-4 flex justify-center items-center">
-          <NavLink
-            to={`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`}
+          <a
+            href={`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`}
             className="text-secondary-a  hover:underline"
+            target="_blank"
           >
             {import.meta.env.VITE_APP_BASE_URL}/{row.shorten_link}
-          </NavLink>
+          </a>
         </td>
         <td className="py-2 px-4 text-center">{row.clickCount}</td>
         <td className="py-2 px-4 text-center">{row.is_smart_link ? 'Yes' : 'No'}</td>
@@ -161,10 +187,10 @@ const ManageLinks = () => {
               navigator.clipboard
                 .writeText(`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`)
                 .then(() => {
-                  toast('Short Link Copied!');
+                  customToast('Short Link Copied!');
                 })
                 .catch(() => {
-                  toast('Failed to copy!');
+                  customToast('Failed to copy!');
                 });
             }}
           />

@@ -6,6 +6,17 @@ import { changeUserPassword, forgotPassword, verifyResetPasswordToken } from '..
 import toast from 'react-simple-toasts';
 import { localStorageService } from '../utils/localStorageService';
 import { useNavigate } from 'react-router-dom';
+import { createToast } from 'react-simple-toasts';
+const customToast = createToast({
+  duration: 3000,
+  theme: 'dark',
+  className: 'custom-toast',
+  clickClosable: true,
+  position: 'top-right',
+  maxVisibleToasts: 1,
+
+  render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
+});
 const CreatePassword = () => {
   const [resetCode, setResetCode] = useState('');
   const [password, setPassword] = useState('');
@@ -36,13 +47,13 @@ const CreatePassword = () => {
     const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#\-:])[A-Za-z\d@$!%*?&#\-:]{8,}$/;
     const email = localStorageService.getItem('user-reset-email');
     if (!password || !confirmPassword || !resetCode) {
-      toast('All fields are required');
+      customToast('All fields are required');
     } else if (!passwordCriteria.test(password) || !passwordCriteria.test(confirmPassword)) {
-      toast('Password is not valid');
+      customToast('Password is not valid');
     } else if (password != confirmPassword) {
-      toast('Passwords do not match');
+      customToast('Passwords do not match');
     } else if (!email) {
-      toast('Something went wrong. Please try to forgot password again.');
+      customToast('Something went wrong. Please try to forgot password again.');
     }
 
     // Add your Forgot logic here
@@ -53,18 +64,18 @@ const CreatePassword = () => {
         setIsChangePasswordLoading(true);
         const verifyTokenResponse = await verifyResetPasswordToken(verifyTokenData);
         if (!verifyTokenResponse.data.success) {
-          toast('Invalid reset token. Please try again');
+          customToast('Invalid reset token. Please try again');
         } else {
           const createNewPasswordData = { email: email, password: password };
           const response = await changeUserPassword(createNewPasswordData);
           if (response.data.success) {
             localStorageService.removeItem('user-reset-email');
-            toast('Password reset successfully. Login with the new password');
+            customToast('Password reset successfully. Login with the new password');
             navigate('/login');
           }
         }
       } catch (error) {
-        toast('Sorry! Something went wrong. Please try again later.');
+        customToast('Sorry! Something went wrong. Please try again later.');
       }
     }
     setIsChangePasswordLoading(false);

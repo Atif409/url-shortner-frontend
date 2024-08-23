@@ -27,7 +27,15 @@ const DraggableList = ({ onChange = () => {}, initialState = [] }) => {
 
   return (
     <div className="max-w-md mx-auto mt-10">
-      <ul>
+      <label
+        htmlFor="items"
+        className=" text-xl flex items-center flex-col justify-center text-secondary-a font-semibold"
+      >
+        <span>Drag & Drop</span>
+        <span>To Set</span>
+        <span>Redirect Rules Priority</span>
+      </label>
+      <ul className="mt-4">
         {items.map((item, index) => (
           <li
             key={index}
@@ -35,7 +43,7 @@ const DraggableList = ({ onChange = () => {}, initialState = [] }) => {
             onDragStart={(e) => handleDragStart(e, index)}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, index)}
-            className="p-4 mb-2 bg-blue-500 text-white rounded cursor-move"
+            className="p-4 mb-2 bg-primary-b text-secondary-b rounded cursor-move text-center"
           >
             {item}
           </li>

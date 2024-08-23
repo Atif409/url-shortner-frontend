@@ -14,6 +14,18 @@ import Modal from 'react-modal';
 import toast from 'react-simple-toasts';
 import Loader from '../components/Loader';
 import QRCode from 'react-qr-code';
+import CustomModal from '../components/CustomModal';
+import { createToast } from 'react-simple-toasts';
+const customToast = createToast({
+  duration: 3000,
+  theme: 'dark',
+  className: 'custom-toast',
+  clickClosable: true,
+  position: 'top-right',
+  maxVisibleToasts: 1,
+
+  render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
+});
 const SmartLinks = () => {
   const { id } = useParams();
   const [redirectRule, setRedirectRule] = useState('');
@@ -121,13 +133,13 @@ const SmartLinks = () => {
       const response = await (id ? updateLink(linkData) : createLink(linkData));
       if (response.data.success) {
         setShortId(response.data.data.shorten_link);
-        // if (!id) toast('Link created successfully!');
+        // if (!id) customToast('Link created successfully!');
         openModal();
       } else {
-        toast(`Sorry Failed to ${id ? 'update' : 'create'} link \n ${response.data.message}`);
+        customToast(`Sorry Failed to ${id ? 'update' : 'create'} link \n ${response.data.message}`);
       }
     } catch (error) {
-      toast(`Sorry Failed to ${id ? 'update' : 'create'} link. Unexpected problem please try again!`);
+      customToast(`Sorry Failed to ${id ? 'update' : 'create'} link. Unexpected problem please try again!`);
     }
     setLinkCreating(false);
   };
@@ -141,32 +153,14 @@ const SmartLinks = () => {
 
   return (
     <div className="p-2">
-      <Modal
+      <CustomModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Example Modal"
-        style={{
-          content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-          },
-        }}
-      >
-        {!id && <h2>Thanks for creating a shorten Link;</h2>}
-        {id && <h2>Your Shorten Link Updated successfully;</h2>}
-        <h3>
-          Your shorten Link is {import.meta.env.VITE_APP_BASE_URL}/{shortId}
-        </h3>
-        <h5>For more details please check Manage shorten link section</h5>
-        <div className="flex justify-center ">
-          <QRCode size={128} value={getQrCodeLinkString()} />
-        </div>
-        <button onClick={closeModal}>Close</button>
-      </Modal>
+        id={id}
+        link={`${import.meta.env.VITE_APP_BASE_URL}/${shortId}`}
+        qrCode={true}
+        message={true ? 'Your QR Code is ' : ''}
+      />
       <div className="lg:pl-8 lg:pr-8">
         <h1 className="text-4xl font-semibold mb-4 text-secondary-a tracking-wider ">
           {id ? 'Update' : 'Create'} Smart Shorten Link

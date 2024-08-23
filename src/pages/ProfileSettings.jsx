@@ -4,6 +4,17 @@ import Button from '../components/Button';
 import toast from 'react-simple-toasts';
 import { localStorageService } from '../utils/localStorageService';
 import { getUserData, updateUser } from '../services/user.api';
+import { createToast } from 'react-simple-toasts';
+const customToast = createToast({
+  duration: 3000,
+  theme: 'dark',
+  className: 'custom-toast',
+  clickClosable: true,
+  position: 'top-right',
+  maxVisibleToasts: 1,
+
+  render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
+});
 const ProfileSettings = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,9 +30,9 @@ const ProfileSettings = () => {
       return emailRegex.test(email);
     };
     if (!email || !userName) {
-      toast('All fields are required');
+      customToast('All fields are required');
     } else if (!validateEmail(email)) {
-      toast('Email is not valid');
+      customToast('Email is not valid');
     }
 
     // Add your sign up logic here
@@ -29,9 +40,9 @@ const ProfileSettings = () => {
       const userData = { id: localStorageService.getItem('user_id'), username: userName, email: email };
       const userUpdatedResponse = await updateUser(userData);
       if (userUpdatedResponse.data.success) {
-        toast('Profile updated successfully');
+        customToast('Profile updated successfully');
       } else {
-        toast(userUpdatedResponse.data.message);
+        customToast(userUpdatedResponse.data.message);
       }
     }
     setIsUpdateLoading(false);
@@ -51,7 +62,7 @@ const ProfileSettings = () => {
         console.log(user);
         serProfileData(user.data.data);
       } catch (error) {
-        toast('Sorry! Something went wrong. Please try again later.');
+        customToast('Sorry! Something went wrong. Please try again later.');
       }
       setIsUpdateLoading(false);
     };

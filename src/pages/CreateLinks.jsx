@@ -6,10 +6,22 @@ import DateTimePicker from '../components/DateTimePicker';
 import toast from 'react-simple-toasts';
 import { localStorageService } from '../utils/localStorageService';
 import { createLink, getLink, updateLink } from '../services/link.api';
-import Modal from 'react-modal';
+
 import { useParams } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-Modal.setAppElement('#root');
+
+import CustomModal from '../components/CustomModal';
+import { createToast } from 'react-simple-toasts';
+const customToast = createToast({
+  duration: 3000,
+  theme: 'dark',
+  className: 'custom-toast',
+  clickClosable: true,
+  position: 'top-right',
+  maxVisibleToasts: 1,
+
+  render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
+});
 const CreateLinks = () => {
   const { id } = useParams();
   const [linkTracking, isLinkTracking] = useState(false);
@@ -102,13 +114,13 @@ const CreateLinks = () => {
   };
   const createShortLink = async () => {
     if (!url) {
-      toast('Please enter a destination url');
+      customToast('Please enter a destination url');
     } else if (isCustomAlias && !alias) {
-      toast('Please choose a unique alias');
+      customToast('Please choose a unique alias');
     } else if (isDateTimePickerToggled && !expirationTime) {
-      toast('Please choose an expiration time or disabled the set expiration');
+      customToast('Please choose an expiration time or disabled the set expiration');
     } else if (isPasswordToggled && !password) {
-      toast('Please choose some password or diabled the set password');
+      customToast('Please choose some password or diabled the set password');
     } else {
       const linkData = createGenerateLinkData();
       setLinkCreating(true);
@@ -116,13 +128,13 @@ const CreateLinks = () => {
         const response = await (id ? updateLink(linkData) : createLink(linkData));
         if (response.data.success) {
           setShortId(response.data.data.shorten_link);
-          if (!id) toast('Link created successfully!');
+          if (!id) customToast('Link created successfully!');
           openModal();
         } else {
-          toast(`Sorry Failed to create link \n ${response.data.message}`);
+          customToast(`Sorry Failed to create link \n ${response.data.message}`);
         }
       } catch (error) {
-        toast(`Sorry Failed to create link. Unexpected problem please try again!`);
+        customToast(`Sorry Failed to create link. Unexpected problem please try again!`);
       }
       setLinkCreating(false);
     }
@@ -137,38 +149,18 @@ const CreateLinks = () => {
         <h1>Loading Link...</h1>
       ) : (
         <div className="flex flex-col items-start bg-primary-c p-8">
-          <Modal
+          <CustomModal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
-            contentLabel="Example Modal"
-            style={{
-              content: {
-                top: '50%',
-                left: '50%',
-                right: 'auto',
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)',
-              },
-            }}
-          >
-            {!id && <h2>Thanks for creating a shorten Link;</h2>}
-            {id && <h2>Your Shorten Link Updated successfully;</h2>}
-            <h3>
-              Your shorten Link is {import.meta.env.VITE_APP_BASE_URL}/{isCustomAlias ? alias : shortId}
-            </h3>
-            <h5>For more details please check Manage shorten link section</h5>
-            {qrCode && (
-              <div className="flex justify-center ">
-                <QRCode size={128} value={getQrCodeLinkString()} />
-              </div>
-            )}
-            <button onClick={closeModal}>Close</button>
-          </Modal>
+            id={id}
+            link={`${import.meta.env.VITE_APP_BASE_URL}/${isCustomAlias ? alias : shortId}`}
+            qrCode={qrCode}
+            message={qrCode ? 'Your QR Code is ' : ''}
+          />
+          ;
           <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
             {id ? 'Update' : 'Create'} Short Links
           </h1>
-
           <div className="sm:mt-8 mt-2 w-full">
             <Input
               type="text"
