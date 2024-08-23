@@ -163,7 +163,7 @@ const SmartLinks = () => {
         </h3>
         <h5>For more details please check Manage shorten link section</h5>
         <div className="flex justify-center ">
-          <QRCode value={getQrCodeLinkString()} />
+          <QRCode size={128} value={getQrCodeLinkString()} />
         </div>
         <button onClick={closeModal}>Close</button>
       </Modal>

@@ -8,6 +8,8 @@ import { deleteLink, getLinkList } from '../services/link.api';
 import { localStorageService } from '../utils/localStorageService';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-simple-toasts';
+import Modal from 'react-modal';
+import QRCode from 'react-qr-code';
 const ManageLinks = () => {
   const [records, setRecords] = useState(0);
   const [link, setLink] = useState('');
@@ -22,6 +24,12 @@ const ManageLinks = () => {
   const [deletingLink, setDeletingLink] = useState(null);
   const recordsPerPage = 25;
   const navigate = useNavigate();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [linkIndex, openLinkIndex] = useState(0);
+  const closeModal = () => setModalIsOpen(false);
+  const getQrCodeLinkString = (shortId) => {
+    return `${import.meta.env.VITE_APP_BASE_URL}/${data[linkIndex].shorten_link}`;
+  };
 
   const deleteLinkData = async (row) => {
     const promptAns = confirm(
@@ -98,6 +106,26 @@ const ManageLinks = () => {
   const rowRenderer = (row, index) => {
     return (
       <>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Example Modal"
+          style={{
+            content: {
+              top: '50%',
+              left: '50%',
+              right: 'auto',
+              bottom: 'auto',
+              marginRight: '-50%',
+              transform: 'translate(-50%, -50%)',
+            },
+          }}
+        >
+          <div className="flex justify-center ">
+            <QRCode size={128} value={getQrCodeLinkString(row.shorten_link)} />
+          </div>
+          <button onClick={closeModal}>Close</button>
+        </Modal>
         <td className="py-2 px-4 text-center">{row.title}</td>
         <td className="py-2 px-4 text-center">
           <NavLink to={row.original_link} className="text-secondary-a hover:underline">
@@ -149,7 +177,10 @@ const ManageLinks = () => {
           <Button
             text="QRCode"
             className="bg-[#b3aaff] text-secondary-b hover:opacity-65 rounded-md h-8"
-            onClick={() => console.log('QR Code clicked', index)}
+            onClick={() => {
+              openLinkIndex(index);
+              setModalIsOpen(true);
+            }}
           />
           <Button
             text="Analytics"

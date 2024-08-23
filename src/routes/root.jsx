@@ -17,6 +17,7 @@ import CreatePassword from '../pages/CreatePassword';
 import AppPageLayout from '../layout/AppPageLayout';
 import Dashboard from '../pages/Dashboard';
 import SmartLinks from '../pages/SmartLinks';
+import CreateQRCode from '../pages/CreateQRCode';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: 'create-link',
         element: <CreateLinks />,
+      },
+      {
+        path: 'create-qrcodes',
+        element: <CreateQRCode />,
       },
       {
         path: 'manage-links',
