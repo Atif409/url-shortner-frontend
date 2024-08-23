@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import { localStorageService } from '../utils/localStorageService';
 import { useNavigate } from 'react-router-dom';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 export const SideBar = ({ children }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
@@ -83,8 +85,10 @@ export const SideBar = ({ children }) => {
   ];
 
   return (
-    <div className=" grid grid-cols-12 h-[100vh]">
-      <nav className="bg-primary-b p-4 col-span-2 h-[100vh]">
+    <div className=" grid grid-cols-12 h-[100vh] relative">
+      <nav
+        className={`bg-primary-b p-4 col-span-2 h-[100vh] xsm:absolute xsm:top-0 xsm:left-0 ${!open ? 'xsm:-translate-x-full' : 'xsm:translate-x-0'} lg:translate-x-0 lg:block lg:relative`}
+      >
         <ul>
           {sidebarItems.map((item, index) => (
             <li
@@ -101,14 +105,19 @@ export const SideBar = ({ children }) => {
                 className={`${selectedIndex === index ? 'text-secondary-a' : 'text-secondary-b'} 
                   ${!document.querySelector('body').classList.contains('lg') ? 'text-xl' : 'text-base'}`}
               />
-              <span className={`${selectedIndex === index ? 'text-secondary-a' : ''} hidden lg:inline`}>
-                {item.text}
-              </span>
+              <span className={`${selectedIndex === index ? 'text-secondary-a' : ''}  lg:inline`}>{item.text}</span>
             </li>
           ))}
         </ul>
       </nav>
-      <div className=" bg-primary-c col-span-10 h-[100vh] overflow-y-auto">{children}</div>
+      <FontAwesomeIcon
+        onClick={() => {
+          setOpen(!open);
+        }}
+        className={`${open ? 'text-secondary-b' : 'text-secondary-a'} z-50 lg:hidden xsm:col-span-2 xsm:ml-2 xsm:mt-2`}
+        icon={faBars}
+      />
+      <div className=" bg-primary-c xsm:col-span-11 lg:col-span-10 h-[100vh] overflow-y-auto">{children}</div>
     </div>
   );
 };
