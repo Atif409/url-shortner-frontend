@@ -13,6 +13,7 @@ import { getLink } from '../services/link.api';
 import Modal from 'react-modal';
 import toast from 'react-simple-toasts';
 import Loader from '../components/Loader';
+import QRCode from 'react-qr-code';
 const SmartLinks = () => {
   const { id } = useParams();
   const [redirectRule, setRedirectRule] = useState('');
@@ -133,6 +134,11 @@ const SmartLinks = () => {
   if (linkLoading) {
     return <Loader title="Loading Smart Link..."></Loader>;
   }
+
+  const getQrCodeLinkString = () => {
+    return `${import.meta.env.VITE_APP_BASE_URL}/${shortId}`;
+  };
+
   return (
     <div className="p-2">
       <Modal
@@ -156,6 +162,9 @@ const SmartLinks = () => {
           Your shorten Link is {import.meta.env.VITE_APP_BASE_URL}/{shortId}
         </h3>
         <h5>For more details please check Manage shorten link section</h5>
+        <div className="flex justify-center ">
+          <QRCode value={getQrCodeLinkString()} />
+        </div>
         <button onClick={closeModal}>Close</button>
       </Modal>
       <div className="lg:pl-8 lg:pr-8">

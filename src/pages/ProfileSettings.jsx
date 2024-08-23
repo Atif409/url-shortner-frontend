@@ -12,7 +12,6 @@ const ProfileSettings = () => {
 
   const handleUserNameChange = (e) => setUserName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleUpdate = async () => {
     setIsUpdateLoading(true);
     const validateEmail = (email) => {

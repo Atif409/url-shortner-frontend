@@ -8,6 +8,7 @@ import { localStorageService } from '../utils/localStorageService';
 import { createLink, getLink, updateLink } from '../services/link.api';
 import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
+import QRCode from 'react-qr-code';
 Modal.setAppElement('#root');
 const CreateLinks = () => {
   const { id } = useParams();
@@ -126,6 +127,10 @@ const CreateLinks = () => {
       setLinkCreating(false);
     }
   };
+
+  const getQrCodeLinkString = () => {
+    return `${import.meta.env.VITE_APP_BASE_URL}/${isCustomAlias ? alias : shortId}`;
+  };
   return (
     <>
       {linkLoading ? (
@@ -153,6 +158,9 @@ const CreateLinks = () => {
               Your shorten Link is {import.meta.env.VITE_APP_BASE_URL}/{isCustomAlias ? alias : shortId}
             </h3>
             <h5>For more details please check Manage shorten link section</h5>
+            <div className="flex justify-center ">
+              <QRCode value={getQrCodeLinkString()} />
+            </div>
             <button onClick={closeModal}>Close</button>
           </Modal>
           <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
