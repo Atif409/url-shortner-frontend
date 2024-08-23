@@ -32,6 +32,7 @@ export default {
       },
       screens: {
         1025: '1025px',
+        xsm: '200px',
       },
     },
   },

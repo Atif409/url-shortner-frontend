@@ -14,15 +14,19 @@ const Table = ({ headers, data, rowRenderer, className = '', headerClassName = '
             ))}
           </tr>
         </thead>
-        
+
         <tbody>
+          {/* Render each row */}
           {data.map((row, index) => (
-            <tr key={index} className={`${index % 2 === 0 ? 'bg-primary-f' : ''} ${rowClassName}`}>
+            <tr key={index} className={`${index % 2 === 0 ? 'bg-primary-f  ' : ''} ${rowClassName}`}>
               {rowRenderer(row, index)}
             </tr>
           ))}
         </tbody>
       </table>
+      {data.length == 0 && (
+        <div className={`bg-primary-f ${rowClassName} text-center text-secondary-a`}>No Record Exist!</div>
+      )}
     </div>
   );
 };

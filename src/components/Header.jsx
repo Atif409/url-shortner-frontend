@@ -7,7 +7,7 @@ const Header = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuth();
   return (
-    <header className="z-30 bg-primary-a ">
+    <header className="z-30 bg-primary-a  ">
       <nav className="flex h-auto w-auto mt-4 justify-between md:h-16 bg-transparent">
         <div className="flex w-full justify-between">
           {/* Logo section */}
@@ -48,7 +48,7 @@ const Header = () => {
                 <Button
                   text="DashBoard"
                   className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
-                  onClick={() => navigate('/app')} // Navigate to the Login page
+                  onClick={() => navigate('/app/dashboard')}
                 />
               )}
             </div>
@@ -70,13 +70,13 @@ const Header = () => {
             </NavLink>
           </div>
 
-          <div className="hidden w-1/5 items-center justify-evenly  font-semibold md:flex">
+          <div className="hidden w-1/5 items-center justify-evenly  font-semibold md:flex ">
             {/* Replacing button tags with Button component */}
             {isAuthenticated == false && (
               <Button
                 text="Log in"
                 className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center
-            md:text-[12px] lg:text-md hover:opacity-75
+            md:text-[10px] font-bold lg:text-md hover:opacity-75
             "
                 onClick={() => navigate('/login')} // Navigate to the Login page
               />
@@ -85,17 +85,17 @@ const Header = () => {
               <Button
                 text="Sign Up free"
                 className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center 
-             md:text-[12px] lg:text-md 
+             md:text-[10px] lg:text-md font-bold 
              hover:opacity-75
             "
-                onClick={() => navigate('/signup')} // Navigate to the Login page
+                onClick={() => navigate('/signup')}
               />
             )}
             {isAuthenticated && (
               <Button
                 text="DashBoard"
                 className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
-                onClick={() => navigate('/app')} // Navigate to the Login page
+                onClick={() => navigate('/app/dashboard')}
               />
             )}
           </div>

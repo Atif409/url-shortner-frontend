@@ -16,6 +16,8 @@ import PublicRoute from '../components/PublicRoute';
 import CreatePassword from '../pages/CreatePassword';
 import AppPageLayout from '../layout/AppPageLayout';
 import Dashboard from '../pages/Dashboard';
+import SmartLinks from '../pages/SmartLinks';
+import CreateQRCode from '../pages/CreateQRCode';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -54,16 +56,20 @@ const router = createBrowserRouter([
     element: <ProtectedRoute children={<AppPageLayout />} />,
     children: [
       {
-        path: '',
-        element: <Dashboard />,
-      },
-      {
         path: 'dashboard',
         element: <Dashboard />,
       },
       {
+        path: 'create-link/:id',
+        element: <CreateLinks />,
+      },
+      {
         path: 'create-link',
         element: <CreateLinks />,
+      },
+      {
+        path: 'create-qrcodes',
+        element: <CreateQRCode />,
       },
       {
         path: 'manage-links',
@@ -76,6 +82,14 @@ const router = createBrowserRouter([
       {
         path: 'profile-settings',
         element: <ProfileSettings />,
+      },
+      {
+        path: 'create-smart-links',
+        element: <SmartLinks />,
+      },
+      {
+        path: 'create-smart-links/:id',
+        element: <SmartLinks />,
       },
     ],
   },
