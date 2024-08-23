@@ -174,14 +174,16 @@ const ManageLinks = () => {
             isLoading={deletingLink == row._id}
             className="bg-[#ff0000] text-secondary-b hover:opacity-65 rounded-md h-8"
           />
-          <Button
-            text="QRCode"
-            className="bg-[#b3aaff] text-secondary-b hover:opacity-65 rounded-md h-8"
-            onClick={() => {
-              openLinkIndex(index);
-              setModalIsOpen(true);
-            }}
-          />
+          {row.is_qr_code_enabled && (
+            <Button
+              text="QRCode"
+              className="bg-[#b3aaff] text-secondary-b hover:opacity-65 rounded-md h-8"
+              onClick={() => {
+                openLinkIndex(index);
+                setModalIsOpen(true);
+              }}
+            />
+          )}
           <Button
             text="Analytics"
             className="bg-primary-b text-secondary-b hover:opacity-75 rounded-md h-8"

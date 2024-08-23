@@ -158,9 +158,11 @@ const CreateLinks = () => {
               Your shorten Link is {import.meta.env.VITE_APP_BASE_URL}/{isCustomAlias ? alias : shortId}
             </h3>
             <h5>For more details please check Manage shorten link section</h5>
-            <div className="flex justify-center ">
-              <QRCode size={128} value={getQrCodeLinkString()} />
-            </div>
+            {qrCode && (
+              <div className="flex justify-center ">
+                <QRCode size={128} value={getQrCodeLinkString()} />
+              </div>
+            )}
             <button onClick={closeModal}>Close</button>
           </Modal>
           <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
