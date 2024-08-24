@@ -91,6 +91,7 @@ const ManageLinks = () => {
     const timer = setTimeout(
       (oldValue) => {
         if (oldValue == link) {
+          setPage(1);
           fetchLinkList();
         }
       },
