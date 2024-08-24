@@ -81,6 +81,7 @@ const ProfileSettings = () => {
             className="w-72 h-10 border-2 rounded-md border-primary-b focus:outline-none focus:border-primary-a text-secondary-a 
               hover:opacity-40
               "
+          disabled={true}
           />
         </div>
         <div className="h-11 w-full min-w-[200px]">
