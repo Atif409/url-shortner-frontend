@@ -231,7 +231,7 @@ const SmartLinks = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title for better Recognition"
-          label="Title: "
+          label="Title (Optional) "
           labelClassName=" text-secondary-a sm:text-1xl font-bold tracking-wider"
           className="w-80 h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75 rounded-lg"
         />
