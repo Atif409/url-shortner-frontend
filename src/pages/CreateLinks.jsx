@@ -60,6 +60,7 @@ const CreateLinks = () => {
     }
     isQrCode(linkData.is_qr_code_enabled);
     isLinkTracking(linkData.is_tracking_enabled);
+    setTitle(linkData.title);
   };
   useEffect(() => {
     const fetchLinkData = async () => {
@@ -157,7 +158,6 @@ const CreateLinks = () => {
             qrCode={qrCode}
             message={qrCode ? 'Your QR Code is ' : ''}
           />
-          ;
           <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
             {id ? 'Update' : 'Create'} Short Links
           </h1>

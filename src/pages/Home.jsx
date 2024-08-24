@@ -2,33 +2,34 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import Card from '../components/Card';
-
+import Home1 from '../assets/grapichs/home_1.webp';
+import ShortenLinkIllus from '../assets/grapichs/home_short_link.webp';
+import QRCodeIllus from '../assets/grapichs/home_qr_code.jpg';
+import { useNavigate } from 'react-router';
 const Home = () => {
   const [activeButton, setActiveButton] = useState('short');
   const [header, setHeader] = useState('Sign in to unlock pro features.');
   const [cardHeader, setCardHeader] = useState('Create a Short Link');
   const [inputLabel, setInputLabel] = useState('Enter Your Long URL');
   const [buttonText, setButtonText] = useState('Get your Shorten URL for Free');
-  const [imageSrc, setImageSrc] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s'
-  );
-
+  const [imageSrc, setImageSrc] = useState(ShortenLinkIllus);
+  const navigate = useNavigate();
   const handleShortButtonClick = () => {
     setActiveButton('short');
     setHeader('Sign in to unlock pro features.');
     setCardHeader('Create a Short Link');
     setInputLabel('Enter Your Long URL');
-    setButtonText('Get your Shorten URL for Free');
-    setImageSrc('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s');
+    setButtonText('Get Your Shorten URL for Free');
+    setImageSrc(ShortenLinkIllus);
   };
 
   const handleQRCodeButtonClick = () => {
     setActiveButton('qr');
     setHeader('Sign up for a free account to explore more options.');
     setCardHeader('Create a QR Code');
-    setInputLabel('Enter your QR Code Destination');
-    setButtonText('Get your QR Code for Free');
-    setImageSrc('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s');
+    setInputLabel('Enter Your Long URL');
+    setButtonText('Get Your QR Code for Free');
+    setImageSrc(QRCodeIllus);
   };
 
   return (
@@ -54,9 +55,9 @@ const Home = () => {
             <div className="p-4 flex flex-col">
               <Button
                 text="Start for Free"
-                className="bg-primary-a text-secondary-b w-48 h-auto flex justify-center items-center hover:opacity-75 rounded-lg"
+                className="bg-primary-a text-secondary-b w-48 h-auto flex justify-center items-center hover:opacity-75 rounded-lg font-bold"
                 onClick={() => {
-                  console.log('Clicked on start for free');
+                  navigate('/signup');
                 }}
               />
               <p className="mt-3 text-secondary-c text-sm ml-3">*No credit card required</p>
@@ -64,18 +65,18 @@ const Home = () => {
           </div>
         </div>
         <div className="lg:col-span-6 hidden lg:flex justify-center items-center">
-          <img src={imageSrc} alt="Sign Up Image" className="w-full max-w-md" />
+          <img src={Home1} alt="Sign Up Image" className="w-full max-w-md" />
         </div>
       </main>
       <div className="flex justify-center items-center flex-col bg-primary-a pb-12  ">
-        <h1 className="text-secondary-b sm:text-4xl text-2xl font-bold mt-12 ">{header}</h1>
+        <h1 className="text-secondary-b xsm:text-base sm:text-2xl text-xl font-bold mt-12 ">{header}</h1>
 
-        <div className="flex flex-row items-center justify-center gap-12 w-1/2 mt-12">
+        <div className="flex flex-row items-center justify-center gap-3 w-1/2 mt-4">
           <Button
             text="Short"
-            iconShow={['fa-solid', 'link']}
+            iconShow={['link']}
             iconPosition="left"
-            className={`mt-2 w-auto h-10 font-bold text-xs sm:text-base rounded-md 
+            className={`mt-2 text-nowrap w-auto h-10 font-bold text-lg sm:text-base rounded-md 
                             ${activeButton === 'short' ? 'bg-primary-c text-secondary-a' : 'bg-primary-a text-secondary-b border-primary-c border-2'} 
                             hover:opacity-75`}
             onClick={handleShortButtonClick}
@@ -83,16 +84,22 @@ const Home = () => {
 
           <Button
             text="QR Code"
-            iconShow={['fa-solid', 'qrcode']}
+            iconShow={['qrcode']}
             iconPosition="left"
-            className={`mt-2 w-auto h-10  font-bold text-xs sm:text-base rounded-md 
+            className={`mt-2 text-nowrap w-auto h-10  font-bold text-lg sm:text-base rounded-md 
                             ${activeButton === 'qr' ? 'bg-primary-c text-secondary-a' : 'bg-primary-a text-secondary-b border-primary-c border-2'} 
                             hover:opacity-75`}
             onClick={handleQRCodeButtonClick}
           />
         </div>
         <div className="mt-8">
-          <Card cardHeader={cardHeader} inputLabel={inputLabel} buttonText={buttonText} imageSrc={imageSrc} />
+          <Card
+            cardHeader={cardHeader}
+            inputLabel={inputLabel}
+            buttonText={buttonText}
+            onClick={() => navigate('/signup')}
+            imageSrc={imageSrc}
+          />
         </div>
       </div>
     </div>

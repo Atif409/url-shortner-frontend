@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { registerUser } from '../services/user.api';
-import toast from 'react-simple-toasts';
+import SignUpIllus from '../assets/grapichs/signup_illus.svg';
 import { useNavigate } from 'react-router-dom';
 import { createToast } from 'react-simple-toasts';
 const customToast = createToast({
@@ -52,7 +52,6 @@ const SignUp = () => {
   };
 
   const handleSignUp = async () => {
-   
     const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#\-:])[A-Za-z\d@$!%*?&#\-:]{8,}$/;
     if (!email || !password || !confirmPassword || !userName) {
       customToast('All fields are required');
@@ -98,20 +97,26 @@ const SignUp = () => {
 
         "
         >
-          <div className="align-items-center place-content-center lg:col-span-4  1025:grid hidden ">
+          <div className="align-items-center place-content-center lg:col-span-4  1025:grid hidden h-[82.5vh] ">
             <div className="bg-secondary-b w-1/2 h-60 lg:w-80 lg:h-96 flex justify-center items-center rounded-md">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s"
-                alt="Sign Up Image"
-              />
+              <img src={SignUpIllus} alt="Sign Up Image" />
             </div>
           </div>
           <div className=" grid sm:grid-cols-1 z-40 1025:col-span-8 col-span-12 justify-items-center align-items-center bg-primary-c 1025:bg-transparent 1025:rounded-none rounded-lg 1025:shadow-sm shadow-2xl md:w-1/2 1025:h-full  ">
             <div className="flex items-center justify-center mt-12 ">
               <div className="relative flex flex-col items-center justify-center rounded-xl ">
                 <h4 className="text-secondary-a text-2xl">Create your account</h4>
+                <div className="flex w-full px-4 justify-center items-center">
+                  <Button
+                    text="Already Registered? Log in here"
+                    onClick={() => {
+                      navigate('/login');
+                    }}
+                    className="text-secondary-a hover:text-primary-a "
+                  />
+                </div>
                 <div
-                  className="h-0.5 w-64 bg-primary-a mt-4 opacity-50
+                  className="h-0.5 w-64 bg-primary-a mt-2 opacity-50
      "
                 ></div>
 
@@ -131,7 +136,7 @@ const SignUp = () => {
                         label="Please Enter User Name"
                         labelClassName="my-1"
                         className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a 
-              hover:opacity-40
+              hover:opacity-80
               "
                       />
                     </div>
@@ -143,7 +148,7 @@ const SignUp = () => {
                         label="Please Enter Email"
                         labelClassName="my-1"
                         className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a 
-              hover:opacity-40
+              hover:opacity-80
               "
                       />
                     </div>
@@ -156,7 +161,7 @@ const SignUp = () => {
                         label="Please Enter Password"
                         labelClassName="my-1"
                         className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a
-              hover:opacity-40
+              hover:opacity-80
               "
                       />
                     </div>
@@ -170,14 +175,14 @@ const SignUp = () => {
                         label="Please Confirm Password"
                         labelClassName="my-1"
                         className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a
-              hover:opacity-40
+              hover:opacity-80
               "
                       />
                     </div>
                   </div>
                   <Button
                     text="Sign Up"
-                    className="mt-8 bg-primary-a text-secondary-b w-24 h-8 flex justify-center items-center
+                    className="mt-6 bg-primary-a text-secondary-b w-24 h-8 flex justify-center items-center
           hover:opacity-75
           "
                     onClick={() => {
@@ -186,13 +191,13 @@ const SignUp = () => {
                     isLoading={isSignUpLoading}
                   />
                 </form>
-                <div className="flex flex-row justify-between items-center mt-4">
+                <div className="flex flex-row justify-between items-center mt-2">
                   <div className="h-1 w-24 bg-primary-a opacity-50"></div>
                   <p className="mx-4 text-primary-a  ">OR</p>
                   <div className="h-1 w-24 bg-primary-a opacity-50"></div>
                 </div>
 
-                <div className="flex justify-between items-center mt-4">
+                <div className="flex justify-between items-center mt-2 mb-2">
                   <Button
                     text="Sign up with"
                     iconShow={[
@@ -205,15 +210,6 @@ const SignUp = () => {
                     className="mt-2 bg-primary-a text-secondary-b w-auto h-8 flex justify-center items-center 
           hover:opacity-75
           "
-                  />
-                </div>
-                <div className="flex w-full pt-5 px-4 mb-8 justify-center items-center">
-                  <Button
-                    text="Already Registered? Log in here"
-                    onClick={() => {
-                      console.log('Button already have account');
-                    }}
-                    className="text-secondary-a hover:text-primary-a "
                   />
                 </div>
               </div>

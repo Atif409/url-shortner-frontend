@@ -11,6 +11,7 @@ import toast from 'react-simple-toasts';
 import Modal from 'react-modal';
 import QRCode from 'react-qr-code';
 import { createToast } from 'react-simple-toasts';
+import copyToClipboard from '../utils/copyToClipBoard';
 const customToast = createToast({
   duration: 3000,
   theme: 'dark',
@@ -150,7 +151,7 @@ const ManageLinks = () => {
             />
           </div>
         </Modal>
-        <td className="py-2 px-4 text-center">{row.title}</td>
+        <td className="py-2 px-4 text-center font-semibold">{row.title}</td>
         <td className="py-2 px-4 text-center ">
           <a href={row.original_link} className="text-secondary-a hover:underline" target="_blank">
             {row.original_link.slice(0, 30)}
@@ -166,8 +167,8 @@ const ManageLinks = () => {
             {import.meta.env.VITE_APP_BASE_URL}/{row.shorten_link}
           </a>
         </td>
-        <td className="py-2 px-4 text-center">{row.clickCount}</td>
-        <td className="py-2 px-4 text-center">{row.is_smart_link ? 'Yes' : 'No'}</td>
+        <td className="py-2 px-4 text-center font-semibold">{row.clickCount}</td>
+        <td className="py-2 px-4 text-center font-semibold">{row.is_smart_link ? 'Yes' : 'No'}</td>
         <td className="py-2 px-4 flex justify-center items-center space-x-2">
           <Button
             text="Edit"
@@ -184,14 +185,8 @@ const ManageLinks = () => {
             text="Copy"
             className="bg-[#008000] text-secondary-b hover:opacity-75 rounded-md h-8"
             onClick={() => {
-              navigator.clipboard
-                .writeText(`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`)
-                .then(() => {
-                  customToast('Short Link Copied!');
-                })
-                .catch(() => {
-                  customToast('Failed to copy!');
-                });
+              copyToClipboard(`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`);
+              customToast('Short Link Copied!');
             }}
           />
           <Button
@@ -200,7 +195,7 @@ const ManageLinks = () => {
             isLoading={deletingLink == row._id}
             className="bg-[#ff0000] text-secondary-b hover:opacity-65 rounded-md h-8"
           />
-          {row.is_qr_code_enabled && (
+          {(row.is_qr_code_enabled || row.is_smart_link) && (
             <Button
               text="QRCode"
               className="bg-[#b3aaff] text-secondary-b hover:opacity-65 rounded-md h-8"

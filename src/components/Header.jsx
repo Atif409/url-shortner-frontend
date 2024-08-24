@@ -23,6 +23,10 @@ const Header = () => {
           </div>
 
           {/* Mobile menu */}
+          <div
+            className={`absolute w-full h-full bg-black bg-opacity-[60%] z-[-10] ${open ? 'block' : 'hidden'}`}
+            onClick={() => setOpen(!open)}
+          ></div>
           <div className={`flex flex-col w-full absolute h-auto md:hidden ${open ? 'flex' : 'hidden'}`}>
             <div className="flex flex-col items-center relative z-30 bg-primary-a justify-center gap-2 font-poppins text-primary-c text-xl">
               <NavLink to="/">Home</NavLink>
@@ -33,21 +37,21 @@ const Header = () => {
               {!isAuthenticated && (
                 <Button
                   text="Log in"
-                  className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center "
+                  className="font-semibold w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center "
                   onClick={() => navigate('/login')} // Navigate to the Login page
                 />
               )}
               {!isAuthenticated && (
                 <Button
                   text="Sign up free"
-                  className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
+                  className="font-semibold w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
                   onClick={() => navigate('/signup')} // Navigate to the Login page
                 />
               )}
               {isAuthenticated && (
                 <Button
-                  text="DashBoard"
-                  className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
+                  text="Dashboard"
+                  className="font-semibold w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
                   onClick={() => navigate('/app/dashboard')}
                 />
               )}
@@ -76,16 +80,16 @@ const Header = () => {
               <Button
                 text="Log in"
                 className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center
-            md:text-[10px] font-bold lg:text-md hover:opacity-75
+            xsm:text-[13px] lg:text-[15px] font-bold lg:text-md hover:opacity-75
             "
                 onClick={() => navigate('/login')} // Navigate to the Login page
               />
             )}
             {isAuthenticated == false && (
               <Button
-                text="Sign Up free"
+                text="Sign Up"
                 className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center 
-             md:text-[10px] lg:text-md font-bold 
+             xsm:text-[13px] lg:text-[15px] lg:text-md font-bold 
              hover:opacity-75
             "
                 onClick={() => navigate('/signup')}

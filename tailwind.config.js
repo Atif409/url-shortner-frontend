@@ -3,6 +3,10 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        'sign-up-illus': "url('./src/assets/grapichs/signup_illus.svg')",
+        // 'footer-texture': "url('/img/footer-texture.png')",
+      },
       fontFamily: {
         hangyaboly: ['Hangyaboly', 'sans-serif'],
         poppins: ['Poppins-Regular'],

@@ -152,7 +152,7 @@ const SmartLinks = () => {
   };
 
   return (
-    <div className="p-2">
+    <div className="flex flex-col items-start bg-primary-c p-8">
       <CustomModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -162,7 +162,7 @@ const SmartLinks = () => {
         message={true ? 'Your QR Code is ' : ''}
       />
       <div className="lg:pl-8 lg:pr-8">
-        <h1 className="text-4xl font-semibold mb-4 text-secondary-a tracking-wider ">
+        <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
           {id ? 'Update' : 'Create'} Smart Shorten Link
         </h1>
         <h3 className="text-2xl font-medium mb-4 mt-4 text-secondary-a">Redirect Rules</h3>

@@ -3,9 +3,8 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { localStorageService } from '../utils/localStorageService';
-
+import LogInIllus from '../assets/grapichs/login_illus.webp';
 import { loginUser } from '../services/user.api';
-
 import { useNavigate } from 'react-router-dom';
 import { createToast } from 'react-simple-toasts';
 const customToast = createToast({
@@ -53,9 +52,7 @@ const Login = () => {
     } else if (!validateEmail(email)) {
       customToast('Email is not valid');
     } else if (passwordCriteria.test(password) == false) {
-      customToast(
-        'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.'
-      );
+      customToast('Password is not valid.');
     } else {
       const userData = { email: email, password: password };
       try {
@@ -95,10 +92,7 @@ const Login = () => {
         >
           <div className="align-items-center place-content-center lg:col-span-4  1025:grid hidden h-[82.5vh] ">
             <div className="bg-secondary-b w-1/2 h-60 lg:w-80 lg:h-96 flex justify-center items-center rounded-md">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcY0hCdAgzbtF2AM8B9ESuvzALzmiDNR9Ow&s"
-                alt="Sign Up Image"
-              />
+              <img src={LogInIllus} alt="Sign Up Image" />
             </div>
           </div>
 
@@ -110,7 +104,7 @@ const Login = () => {
                   <Button
                     text="Don’t have an account? Sign Up"
                     onClick={() => {
-                      console.log('Button already have account');
+                      navigate('/signup');
                     }}
                     className="text-secondary-a hover:text-primary-a "
                   />
@@ -136,7 +130,7 @@ const Login = () => {
                         label="Please Enter Email"
                         labelClassName="my-1"
                         className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a 
-              hover:opacity-40
+              hover:opacity-80
               "
                       />
                     </div>
@@ -149,7 +143,7 @@ const Login = () => {
                         label="Please Enter Password"
                         labelClassName="my-1"
                         className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a
-              hover:opacity-40
+              hover:opacity-80
               "
                       />
                     </div>

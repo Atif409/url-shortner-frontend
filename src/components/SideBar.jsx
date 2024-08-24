@@ -12,12 +12,16 @@ export const SideBar = ({ children }) => {
   useEffect(() => {
     const splitPath = location.pathname.split('/');
     if (splitPath[splitPath.length - 1] == 'app') {
-      setSelectedIndex(0);
+      setSelectedIndex(1);
     } else {
-      sidebarItems.forEach((val, index) => {
-        if (splitPath[splitPath.length - 1] == val.path) {
+      sidebarItems.some((val, index) => {
+        console.log(location.pathname.indexOf(val.path));
+        if (val.path == '/') return false;
+        if (location.pathname.indexOf(val.path) >= 0) {
           setSelectedIndex(index);
+          return true;
         }
+        return false;
       });
     }
   }, [location.pathname]);
@@ -85,9 +89,13 @@ export const SideBar = ({ children }) => {
   ];
 
   return (
-    <div className=" grid grid-cols-12 h-[100vh] relative">
+    <div className=" grid grid-cols-12 h-[100vh] relative ">
+      <div
+        className={`absolute w-full h-full bg-black bg-opacity-[60%] z-[10] ${open ? 'block' : 'hidden'}`}
+        onClick={() => setOpen(!open)}
+      ></div>
       <nav
-        className={`bg-primary-b p-4 col-span-2 h-[100vh] xsm:absolute xsm:top-0 xsm:left-0 ${!open ? 'xsm:-translate-x-full' : 'xsm:translate-x-0'} lg:translate-x-0 lg:block lg:relative`}
+        className={`z-40 bg-primary-b p-4 col-span-2 h-[100vh] xsm:absolute xsm:top-0 xsm:left-0 ${!open ? 'xsm:-translate-x-full' : 'xsm:translate-x-0'} lg:translate-x-0 lg:block lg:relative`}
       >
         <ul>
           {sidebarItems.map((item, index) => (
@@ -96,8 +104,9 @@ export const SideBar = ({ children }) => {
               onClick={() => {
                 setSelectedIndex(index);
                 item.onClick();
+                setOpen(false);
               }}
-              className={`flex items-center justify-center lg:justify-start space-x-3 p-2 rounded-lg cursor-pointer mt-2
+              className={`flex items-center justify-center xsm:justify-start space-x-3 p-2 rounded-lg cursor-pointer mt-2
                 ${selectedIndex === index ? 'bg-primary-c text-secondary-a' : 'text-secondary-b hover:bg-primary-a'}`}
             >
               <FontAwesomeIcon
@@ -111,10 +120,11 @@ export const SideBar = ({ children }) => {
         </ul>
       </nav>
       <FontAwesomeIcon
+        fontSize={`${open ? '20' : '25'}`}
         onClick={() => {
           setOpen(!open);
         }}
-        className={`${open ? 'text-secondary-b' : 'text-secondary-a'} z-50 lg:hidden xsm:col-span-2 xsm:ml-2 xsm:mt-2`}
+        className={`${open ? 'text-secondary-b' : 'text-secondary-a'} z-50 lg:hidden xsm:col-span-2 top-[5px] w-full sticky`}
         icon={faBars}
       />
       <div className=" bg-primary-c xsm:col-span-11 lg:col-span-10 h-[100vh] overflow-y-auto">{children}</div>

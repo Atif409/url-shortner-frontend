@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import Button from './Button';
 import QRCode from 'react-qr-code';
-
+import copyToClipboard from '../utils/copyToClipBoard';
 import { createToast } from 'react-simple-toasts';
 const customToast = createToast({
   duration: 3000,
@@ -74,16 +74,8 @@ const CustomModal = ({
           <Button
             text={copy ? 'Copied!' : 'Copy Link'}
             onClick={() => {
-              navigator.clipboard
-                .writeText(`${link}`)
-                .then(() => {
-                  customToast('Short Link Copied!');
-                })
-                .catch(() => {
-                  customToast('Failed to copy!');
-                });
-              setCopy(true);
-              setTimeout(() => setCopy(false), 2000);
+              copyToClipboard(link);
+              customToast('Short Link Copied!');
             }}
             iconShow={['fa-solid', 'copy']}
             className="flex items-center justify-center bg-primary-b text-secondary-b font-bold rounded-md hover:bg-primary-d transition"
