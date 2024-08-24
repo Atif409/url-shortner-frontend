@@ -164,7 +164,7 @@ const Login = () => {
                   <Button
                     text="Forgot your password? Reset"
                     onClick={() => {
-                      navigate('/change-password');
+                      navigate('/forgot-password');
                     }}
                     className="text-secondary-a hover:text-primary-a "
                   />
