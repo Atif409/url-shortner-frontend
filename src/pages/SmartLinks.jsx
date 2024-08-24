@@ -129,6 +129,11 @@ const SmartLinks = () => {
 
   const createSmartLink = async () => {
     console.log(state);
+
+    if (!url) {
+      customToast('Please enter the default destination link');
+      return;
+    }
     // return;
     const linkData = createGenerateSmartLinkData();
     setLinkCreating(true);

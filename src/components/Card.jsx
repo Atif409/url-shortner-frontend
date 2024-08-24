@@ -22,7 +22,7 @@ const Card = ({ cardHeader, inputLabel, buttonText, imageSrc, onClick }) => {
               onChange={handleUrlChange}
               placeholder="https://urlShorten.com/"
               label={inputLabel}
-              labelClassName="my-1 text-secondary-a sm:text-3xl text-2xl font-bold tracking-wide"
+              labelClassName="my-1 text-secondary-a sm:text-xl text-lg font-bold tracking-wide"
               className="w-[90%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
             />
             <Button
