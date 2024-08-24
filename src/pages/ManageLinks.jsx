@@ -230,7 +230,6 @@ const ManageLinks = () => {
           placeholder="Search links...."
           className="w-80 h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
         />
-        <Button text="Search" className="bg-primary-b text-secondary-b hover:opacity-75 rounded-md h-10 ml-5" />
       </div>
 
       <div className="flex flex-col items-center justify-center w-full">
