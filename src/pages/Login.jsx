@@ -65,7 +65,7 @@ const Login = () => {
           if (storedData && storedUserData) {
             setData(storedData);
           }
-          navigate('/app');
+          navigate('/app/dashboard');
         }
         customToast(response.data.message);
       } catch (error) {
