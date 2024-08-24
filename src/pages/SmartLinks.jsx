@@ -246,7 +246,7 @@ const SmartLinks = () => {
       {/* Redirect Rules List */}
       {redirectRules &&
         redirectRules.map((rule, index) => (
-          <div key={index} className="grid lg:grid-cols-2 grid-cols-1 lg:pl-8 lg:pr-8 gap-4 mt-8 ">
+          <div key={index} className="grid lg:grid-cols-2 grid-cols-1 lg:pl-8 lg:pr-8 gap-4 mt-8 w-full">
             <div>
               <Dropdown
                 title={rule.ruleType}
