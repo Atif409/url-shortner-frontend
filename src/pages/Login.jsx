@@ -148,15 +148,7 @@ const Login = () => {
                       />
                     </div>
                   </div>
-                  <div className=" mt-2 flex w-full pt-2 px-4 justify-center items-center">
-                    <Button
-                      text="Forgot your password? Reset"
-                      onClick={() => {
-                        navigate('/change-password');
-                      }}
-                      className="text-secondary-a hover:text-primary-a "
-                    />
-                  </div>
+                  <div className=" mt-2 flex w-full pt-2 px-4 justify-center items-center"></div>
                   <Button
                     text="Log in"
                     onClick={handleLogIn}
@@ -164,6 +156,17 @@ const Login = () => {
                     className="mt-2 bg-primary-a text-secondary-b w-24 h-8 flex justify-center items-center
           hover:opacity-75
           "
+                  />
+                  <div
+                    className=" mt-4
+     "
+                  ></div>
+                  <Button
+                    text="Forgot your password? Reset"
+                    onClick={() => {
+                      navigate('/change-password');
+                    }}
+                    className="text-secondary-a hover:text-primary-a "
                   />
                 </form>
               </div>
