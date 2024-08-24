@@ -74,15 +74,6 @@ const CreateLinks = () => {
     };
     fetchLinkData();
   }, []);
-  // useEffect(() => {
-  //   setUrl('');
-  //   setisCustomAlias(false);
-  //   setIsDateTimePickerToggled(false);
-  //   setTitle('');
-  //   isQrCode(false);
-  //   setIsPasswordToggled(false);
-  //   isLinkTracking(false);
-  // }, [location.pathname]);
   const toggleAliasSetting = () => {
     setisCustomAlias(!isCustomAlias);
   };
@@ -205,11 +196,11 @@ const CreateLinks = () => {
               <Input
                 type="text"
                 value={title}
+                labelClassName="text-secondary-a font-bold"
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Title for better Recognition"
                 label="Title: "
-                labelClassName=" text-secondary-a sm:text-1xl font-bold tracking-wider"
-                className="w-80 h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
+                className="sm:w-[50%] w-[80%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75 mb-4"
               />
             </div>
             <div className="mt-4">
