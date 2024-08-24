@@ -264,7 +264,7 @@ const SmartLinks = () => {
               <div className="col-span-11">
                 <Input
                   type="text"
-                  label="Destination URL for selected Device"
+                  label={`Destination URL for ${rule.ruleType}`}
                   placeholder="Enter the destination URL"
                   value={rule.url}
                   onChange={(e) => {
