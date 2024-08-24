@@ -78,7 +78,7 @@ const ProfileSettings = () => {
             onChange={handleEmailChange}
             label="Email"
             labelClassName="my-1"
-            className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a 
+            className="w-72 h-10 border-2 rounded-md border-primary-b focus:outline-none focus:border-primary-a text-secondary-a 
               hover:opacity-40
               "
           />
@@ -90,14 +90,14 @@ const ProfileSettings = () => {
             onChange={handleUserNameChange}
             label="User Name"
             labelClassName="my-1"
-            className="w-72 h-10 border-2 rounded-md border-primary-a focus:outline-none focus:border-primary-a text-secondary-a 
+            className="w-72 h-10 border-2 rounded-md border-primary-b focus:outline-none focus:border-primary-a text-secondary-a 
               hover:opacity-40
               "
           />
         </div>
         <Button
           text="Update Profile"
-          className="mt-8 bg-primary-a text-secondary-b w-36 h-8 flex justify-center items-center
+          className="mt-8 bg-primary-b text-secondary-b w-36 h-8 flex justify-center items-center
           hover:opacity-75
           "
           onClick={() => {

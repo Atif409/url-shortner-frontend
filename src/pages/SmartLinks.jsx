@@ -155,7 +155,7 @@ const SmartLinks = () => {
   };
 
   return (
-    <div className="flex flex-col items-start bg-primary-c p-8">
+    <div className="flex flex-col items-start bg-primary-c mt-8">
       <CustomModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

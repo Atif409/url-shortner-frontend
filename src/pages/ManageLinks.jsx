@@ -219,11 +219,11 @@ const ManageLinks = () => {
     return <Loader title="Loading..." />;
   }
   return (
-    <div className="p-2">
-      <h2 className="lg:text-4xl text-2xl font-semibold mb-4 text-secondary-a lg:pl-8 tracking-wider pt-8">
+    <div className="lg:pl-8 lg:mt-8">
+      <h2 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider ">
         Manage Links
       </h2>
-      <div className="lg:pl-12 lg:mt-12  flex-row flex">
+      <div className=" lg:mt-12  flex-row flex">
         <Input
           type="text"
           value={link}
@@ -238,9 +238,7 @@ const ManageLinks = () => {
           <p className="text-lg text-secondary-a mt-4">Total Records: {totalRecords}</p>
         </div>
         <div
-          className="w-full lg:pl-8 lg:pr-8 mt-2
-        
-        max-h-[58vh] overflow-y-auto "
+          className="w-full  mt-2 max-h-[58vh] overflow-y-auto "
         >
           <Table
             headers={headers}

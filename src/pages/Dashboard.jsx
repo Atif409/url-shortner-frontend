@@ -131,7 +131,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-primary-c">
+    <div className=" bg-primary-c lg:pl-8 lg:pr-8 lg:mt-8 mt-8">
+      <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider mb-4">Dashboard</h1>
       <h1 className="text-2xl font-bold mb-4 text-secondary-a ">Overview</h1>
       <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
         {overviewData.map((item, index) => (
