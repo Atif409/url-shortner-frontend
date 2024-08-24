@@ -240,7 +240,7 @@ const ManageLinks = () => {
         <div
           className="w-full lg:pl-8 lg:pr-8 mt-2
         
-        max-h-[63vh] overflow-y-auto "
+        max-h-[58vh] overflow-y-auto "
         >
           <Table
             headers={headers}
