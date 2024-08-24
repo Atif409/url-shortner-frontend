@@ -199,11 +199,11 @@ const CreateLinks = () => {
             <div className="mt-2">
               <Input
                 type="text"
+                label="Title (optional)"
                 value={title}
                 labelClassName="text-secondary-a font-bold"
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Title for better Recognition"
-                label="Title: "
                 className="sm:w-[50%] w-[80%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75 mb-4"
               />
             </div>
