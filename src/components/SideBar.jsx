@@ -30,37 +30,58 @@ export const SideBar = ({ children }) => {
     console.log('Home clicked');
   };
   const handleDashboardClick = () => {
-    navigate('/app/dashboard');
+    navigate('/loader');
+    setTimeout(() => {
+      navigate('/app/dashboard');
+    }, 10);
     console.log('Dashboard clicked');
   };
 
   const handleCreateLinksClick = () => {
-    navigate('/app/create-link');
+    navigate('/loader');
+    setTimeout(() => {
+      navigate('/app/create-link');
+    }, 10);
     console.log('Create Links clicked');
   };
 
   const handleCreateSmartLinksClick = () => {
-    navigate('/app/create-smart-links');
+    navigate('/loader');
+    setTimeout(() => {
+      navigate('/app/create-smart-links');
+    }, 10);
     console.log('Create Smart Links clicked');
   };
 
   const handleCreateQRCodesClick = () => {
-    navigate('/app/create-qrcodes');
+    navigate('/loader');
+    setTimeout(() => {
+      navigate('/app/create-qrcodes');
+    }, 10);
     console.log('Create QR Codes clicked');
   };
 
   const handleManageLinksClick = () => {
-    navigate('/app/manage-links');
+    navigate('/loader');
+    setTimeout(() => {
+      navigate('/app/manage-links');
+    }, 10);
     console.log('Manage Links clicked');
   };
 
   const handleAnalyticsClick = () => {
-    navigate('/app/analytics');
+    navigate('/loader');
+    setTimeout(() => {
+      navigate('/app/analytics');
+    }, 10);
     console.log('Analytics clicked');
   };
 
   const handleProfileSettingsClick = () => {
-    navigate('/app/profile-settings');
+    navigate('/loader');
+    setTimeout(() => {
+      navigate('/app/profile-settings');
+    }, 10);
     console.log('Profile Settings clicked');
   };
 

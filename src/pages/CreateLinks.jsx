@@ -6,7 +6,7 @@ import DateTimePicker from '../components/DateTimePicker';
 import toast from 'react-simple-toasts';
 import { localStorageService } from '../utils/localStorageService';
 import { createLink, getLink, updateLink } from '../services/link.api';
-
+import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 
@@ -43,7 +43,7 @@ const CreateLinks = () => {
   const handlePassword = (e) => setPassword(e.target.value);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
-
+  const location = useLocation();
   const setExistingLinkData = (linkData) => {
     setUrl(linkData.original_link);
     if (linkData.is_custom_alias) {
@@ -74,6 +74,15 @@ const CreateLinks = () => {
     };
     fetchLinkData();
   }, []);
+  // useEffect(() => {
+  //   setUrl('');
+  //   setisCustomAlias(false);
+  //   setIsDateTimePickerToggled(false);
+  //   setTitle('');
+  //   isQrCode(false);
+  //   setIsPasswordToggled(false);
+  //   isLinkTracking(false);
+  // }, [location.pathname]);
   const toggleAliasSetting = () => {
     setisCustomAlias(!isCustomAlias);
   };

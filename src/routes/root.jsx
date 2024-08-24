@@ -18,6 +18,7 @@ import AppPageLayout from '../layout/AppPageLayout';
 import Dashboard from '../pages/Dashboard';
 import SmartLinks from '../pages/SmartLinks';
 import CreateQRCode from '../pages/CreateQRCode';
+import Loader from '../components/Loader';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <PublicRoute element={<SignUp />} />,
+  },
+  {
+    path: '/loader',
+    element: <Loader />,
   },
   {
     path: '/forgot-password',
