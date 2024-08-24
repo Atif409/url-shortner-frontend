@@ -8,7 +8,7 @@ import { countryNames } from '../data/countries';
 import { createLink, updateLink } from '../services/link.api';
 import { localStorageService } from '../utils/localStorageService';
 import { Draggable } from 'react-drag-reorder';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getLink } from '../services/link.api';
 import Modal from 'react-modal';
 import toast from 'react-simple-toasts';
@@ -38,9 +38,12 @@ const SmartLinks = () => {
   const [linkLoading, setLinkLoading] = useState(id ? true : false);
   const redirectOptions = ['Platform', 'Country', 'Device'];
   const [modalPrIsOpen, setModalPrIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
+  const closeModal = () => {
+    setModalIsOpen(false);
+    navigate('/app/manage-links');
+  };
 
   const openPrModal = () => setModalPrIsOpen(true);
   const closePrModal = () => setModalPrIsOpen(false);

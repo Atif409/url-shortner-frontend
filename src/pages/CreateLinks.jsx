@@ -9,7 +9,7 @@ import { createLink, getLink, updateLink } from '../services/link.api';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-
+import { useNavigate } from 'react-router-dom';
 import CustomModal from '../components/CustomModal';
 import { createToast } from 'react-simple-toasts';
 const customToast = createToast({
@@ -42,7 +42,11 @@ const CreateLinks = () => {
   const handleCustomAliasChange = (e) => setAlias(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
   const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
+  const navigate = useNavigate();
+  const closeModal = () => {
+    setModalIsOpen(false);
+    navigate('/app/manage-links');
+  };
   const location = useLocation();
   const setExistingLinkData = (linkData) => {
     setUrl(linkData.original_link);
