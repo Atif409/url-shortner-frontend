@@ -3,7 +3,33 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
 import Table from '../components/Table';
+import { useEffect, useState } from 'react';
+import Loader from '../components/Loader';
+import { getRecentLink } from '../services/link.api';
+import { UTCTOLocal } from '../utils/getUTCToLocal';
+import { localStorageService } from '../utils/localStorageService';
 const Dashboard = () => {
+  const [recentLinkLoading, setRecentLinkLoading] = useState(false);
+  const [recentLinkData, setRecentLinkData] = useState([]);
+  const [recentLinkLoadingError, setRecentLinkLoadingError] = useState(false);
+  const [lastSevenDaysRecentLinks, setLastSevenDaysRecentLinks] = useState(0);
+  const getRecentLinks = async () => {
+    setRecentLinkLoading(true);
+    const recentLinkData = await getRecentLink({ length: 10, user_id: localStorageService.getItem('user_id') });
+    if (recentLinkData.data.success == false) {
+      setRecentLinkLoadingError(true);
+    } else {
+      // console.log(recentLinkData.data.data);
+
+      setRecentLinkData(recentLinkData.data.data.recentLinks);
+      setLastSevenDaysRecentLinks(recentLinkData.data.data.recentDaysRecordsCount);
+    }
+    setRecentLinkLoading(false);
+  };
+
+  useEffect(() => {
+    getRecentLinks();
+  }, []);
   const overviewData = [
     {
       title: 'Total URL Shorten in the last 7 days',
@@ -24,51 +50,6 @@ const Dashboard = () => {
     },
   ];
 
-  const recentActivity = [
-    {
-      originalUrl: 'Original URL 1',
-      shortenUrl: 'Shorten URL 1',
-      dateCreated: 'Date 1',
-      clickCount: 100,
-    },
-    {
-      originalUrl: 'Original URL 2',
-      shortenUrl: 'Shorten URL 2',
-      dateCreated: 'Date 2',
-      clickCount: 25,
-    },
-    {
-      originalUrl: 'Original URL 3',
-      shortenUrl: 'Shorten URL 3',
-      dateCreated: 'Date 3',
-      clickCount: 350,
-    },
-    {
-      originalUrl: 'Original URL 4',
-      shortenUrl: 'Shorten URL 4',
-      dateCreated: 'Date 4',
-      clickCount: 68,
-    },
-    {
-      originalUrl: 'Original URL 5',
-      shortenUrl: 'Shorten URL 5',
-      dateCreated: 'Date 5',
-      clickCount: 110,
-    },
-
-    {
-      originalUrl: 'Original URL 5',
-      shortenUrl: 'Shorten URL 5',
-      dateCreated: 'Date 5',
-      clickCount: 110,
-    },
-    {
-      originalUrl: 'Original URL 5',
-      shortenUrl: 'Shorten URL 5',
-      dateCreated: 'Date 5',
-      clickCount: 110,
-    },
-  ];
   const recentClicks = [
     { shortenUrl: 'Shorten URL 1', timeStamp: 'Date 1', clickLocation: 'Japan' },
     { shortenUrl: 'Shorten URL 2', timeStamp: 'Date 2', clickLocation: 'USA' },
@@ -76,7 +57,7 @@ const Dashboard = () => {
     { shortenUrl: 'Shorten URL 4', timeStamp: 'Date 4', clickLocation: 'UK' },
     { shortenUrl: 'Shorten URL 5', timeStamp: 'Date 5', clickLocation: 'London' },
   ];
-  const activityHeaders = ['#', 'Original URL', 'Shorten URL', 'Date Created', 'Click Count'];
+  const activityHeaders = ['#', 'Original URL', 'Shorten URL', 'Date Created', 'Smart Link', 'Click Count'];
   const clicksHeaders = ['#', 'Shorten URL', 'Time Stamp', 'Click Location'];
 
   const clickData = {
@@ -130,23 +111,29 @@ const Dashboard = () => {
     maintainAspectRatio: false,
   };
 
+  const getShortOrCustom = (row) => {
+    return row.is_custom_alias ? row.custom_alias : row.shorten_link;
+  };
+
   return (
     <div className="p-6 bg-primary-c">
       <h1 className="text-2xl font-bold mb-4 text-secondary-a ">Overview</h1>
       <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
-        {overviewData.map((item, index) => (
-          <div key={index} className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
-            <div className="w-[75%]">
-              <h2 className="text-lg font-semibold">{item.title}</h2>
-              <div className="flex items-center justify-center mt-2">
-                <span className="text-3xl font-bold">{item.value}</span>
-              </div>
+        {/* {overviewData.map((item, index) => ( */}
+        <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
+          <div className="w-[75%]">
+            <h2 className="text-lg font-semibold">Total URL Shorten in the last 7 days</h2>
+            <div className="flex items-center justify-center mt-2">
+              <span className="text-3xl font-bold">
+                {lastSevenDaysRecentLinks == 0 ? '0' : lastSevenDaysRecentLinks - 1}+
+              </span>
             </div>
+          </div>
 
-            {/* Conditionally render the separator div */}
-            {index >= overviewData.length - 2 && <div className="bg-primary-c w-1"></div>}
+          {/* Conditionally render the separator div */}
+          {/* {index >= overviewData.length - 2 && <div className="bg-primary-c w-1"></div>} */}
 
-            <div className="w-[25%] flex items-center justify-center">
+          {/* <div className="w-[25%] flex items-center justify-center">
               {item.change && (
                 <span className="ml-2 text-secondary text-xl">
                   <span className={`${item.changeType === 'up' ? 'text-green-500' : 'text-red-500'}`}>
@@ -155,24 +142,29 @@ const Dashboard = () => {
                   {item.change}
                 </span>
               )}
-            </div>
-          </div>
-        ))}
+            </div> */}
+        </div>
+        {/* ))} */}
       </div>
 
       <h2 className="text-xl font-bold mb-4 mt-4 text-secondary-a ">Recent Activity</h2>
 
       <Table
         headers={activityHeaders}
-        data={recentActivity}
+        data={recentLinkData}
         className="mb-8 rounded-t-3xl"
         rowRenderer={(row, index) => (
           <>
-            <td className="border px-4 py-2">{index + 1}</td>
-            <td className="border px-4 py-2">{row.originalUrl}</td>
-            <td className="border px-4 py-2">{row.shortenUrl}</td>
-            <td className="border px-4 py-2">{row.dateCreated}</td>
-            <td className="border px-4 py-2">{row.clickCount}</td>
+            <td className=" text-nowrap border px-4 py-2 font-semibold">{index + 1}</td>
+            <td className=" text-nowrap border px-4 py-2">
+              {row.original_link.length > 30 ? `${row.original_link.slice(0, 30)}...` : row.original_link}
+            </td>
+            <td className="border text-nowrap px-4 py-2">
+              {import.meta.env.VITE_APP_BASE_URL}/{getShortOrCustom(row)}
+            </td>
+            <td className="border px-4 py-2 text-nowrap">{new Date(row.createdAt).toLocaleString()}</td>
+            <td className="border font-semibold px-4 py-2">{row.is_smart_link ? 'Yes' : 'No'}</td>
+            <td className="border font-semibold px-4 py-2">{row.clickCount}</td>
           </>
         )}
       />

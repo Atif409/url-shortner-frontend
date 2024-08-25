@@ -44,6 +44,28 @@ const updateLink = async (data) => {
   }
 };
 
+const getRecentLink = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/getRecentLink`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 const getLink = async (data) => {
   // Convert the data to x-www-form-urlencoded format
   const formattedData = prepareParams(data);
@@ -108,4 +130,4 @@ const getLinkList = async (data) => {
     console.error('Error:', error);
   }
 };
-export { createLink, getLink, updateLink, getLinkList, deleteLink };
+export { createLink, getLink, updateLink, getLinkList, deleteLink, getRecentLink };
