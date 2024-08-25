@@ -40,7 +40,7 @@ const ManageLinks = () => {
   const [linkIndex, openLinkIndex] = useState(0);
   const closeModal = () => setModalIsOpen(false);
   const getQrCodeLinkString = (shortId) => {
-    return `${import.meta.env.VITE_APP_BASE_URL}/${data[linkIndex].shorten_link}`;
+    return `${import.meta.env.VITE_APP_BASE_URL}/${shortId}`;
   };
 
   const deleteLinkData = async (row) => {
@@ -136,10 +136,19 @@ const ManageLinks = () => {
         >
           <h5 className="text-sm text-secondary-a mb-4 font-semibold flex flex-col items-center justify-center">
             <span>Your QR code for</span>
-            <span>{getQrCodeLinkString(data[linkIndex].shorten_link)}</span>
+            <span>
+              {getQrCodeLinkString(
+                data[linkIndex].is_custom_alias ? data[linkIndex].custom_alias : data[linkIndex].shorten_link
+              )}
+            </span>
           </h5>
           <div className="flex justify-center ">
-            <QRCode size={128} value={getQrCodeLinkString(row.shorten_link)} />
+            <QRCode
+              size={128}
+              value={getQrCodeLinkString(
+                data[linkIndex].is_custom_alias ? data[linkIndex].custom_alias : data[linkIndex].shorten_link
+              )}
+            />
           </div>
 
           <div className="w-full flex items-center justify-center mt-4">
@@ -161,11 +170,11 @@ const ManageLinks = () => {
         </td>
         <td className="py-2 px-4 flex justify-center items-center">
           <a
-            href={`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`}
+            href={`${import.meta.env.VITE_APP_BASE_URL}/${row.is_custom_alias ? row.custom_alias : row.shorten_link}`}
             className="text-secondary-a  hover:underline"
             target="_blank"
           >
-            {import.meta.env.VITE_APP_BASE_URL}/{row.shorten_link}
+            {import.meta.env.VITE_APP_BASE_URL}/{row.is_custom_alias ? row.custom_alias : row.shorten_link}
           </a>
         </td>
         <td className="py-2 px-4 text-center font-semibold">{row.clickCount}</td>
@@ -186,7 +195,9 @@ const ManageLinks = () => {
             text="Copy"
             className="bg-[#008000] text-secondary-b hover:opacity-75 rounded-md h-8"
             onClick={() => {
-              copyToClipboard(`${import.meta.env.VITE_APP_BASE_URL}/${row.shorten_link}`);
+              copyToClipboard(
+                `${import.meta.env.VITE_APP_BASE_URL}/${row.is_custom_alias ? row.custom_alias : row.shorten_link}`
+              );
               customToast('Short Link Copied!');
             }}
           />
@@ -237,9 +248,7 @@ const ManageLinks = () => {
         <div className="flex justify-end items-end w-full lg:pr-10 pr-2">
           <p className="text-lg text-secondary-a mt-4">Total Records: {totalRecords}</p>
         </div>
-        <div
-          className="w-full  mt-2 max-h-[58vh] overflow-y-auto "
-        >
+        <div className="w-full  mt-2 max-h-[58vh] overflow-y-auto ">
           <Table
             headers={headers}
             data={data}
