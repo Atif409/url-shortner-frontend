@@ -26,13 +26,13 @@ export const SideBar = ({ children }) => {
     }
   }, [location.pathname]);
   const handleHomeClick = () => {
-    navigate('/');
+    navigate('/', { replace: true });
     console.log('Home clicked');
   };
   const handleDashboardClick = () => {
     navigate('/loader');
     setTimeout(() => {
-      navigate('/app/dashboard');
+      navigate('/app/dashboard', { replace: true });
     }, 10);
     console.log('Dashboard clicked');
   };
@@ -40,7 +40,7 @@ export const SideBar = ({ children }) => {
   const handleCreateLinksClick = () => {
     navigate('/loader');
     setTimeout(() => {
-      navigate('/app/create-link');
+      navigate('/app/create-link', { replace: true });
     }, 10);
     console.log('Create Links clicked');
   };
@@ -48,7 +48,7 @@ export const SideBar = ({ children }) => {
   const handleCreateSmartLinksClick = () => {
     navigate('/loader');
     setTimeout(() => {
-      navigate('/app/create-smart-links');
+      navigate('/app/create-smart-links', { replace: true });
     }, 10);
     console.log('Create Smart Links clicked');
   };
@@ -56,7 +56,7 @@ export const SideBar = ({ children }) => {
   const handleCreateQRCodesClick = () => {
     navigate('/loader');
     setTimeout(() => {
-      navigate('/app/create-qrcodes');
+      navigate('/app/create-qrcodes', { replace: true });
     }, 10);
     console.log('Create QR Codes clicked');
   };
@@ -64,7 +64,7 @@ export const SideBar = ({ children }) => {
   const handleManageLinksClick = () => {
     navigate('/loader');
     setTimeout(() => {
-      navigate('/app/manage-links');
+      navigate('/app/manage-links', { replace: true });
     }, 10);
     console.log('Manage Links clicked');
   };
@@ -72,7 +72,7 @@ export const SideBar = ({ children }) => {
   const handleAnalyticsClick = () => {
     navigate('/loader');
     setTimeout(() => {
-      navigate('/app/analytics');
+      navigate('/app/analytics', { replace: true });
     }, 10);
     console.log('Analytics clicked');
   };
@@ -80,7 +80,7 @@ export const SideBar = ({ children }) => {
   const handleProfileSettingsClick = () => {
     navigate('/loader');
     setTimeout(() => {
-      navigate('/app/profile-settings');
+      navigate('/app/profile-settings', { replace: true });
     }, 10);
     console.log('Profile Settings clicked');
   };
@@ -118,7 +118,7 @@ export const SideBar = ({ children }) => {
       <nav
         className={`z-40 bg-primary-b p-4 col-span-2 h-[100vh] xsm:absolute xsm:top-0 xsm:left-0 ${!open ? 'xsm:-translate-x-full' : 'xsm:translate-x-0'} lg:translate-x-0 lg:block lg:relative`}
       >
-        <ul>
+        <ul >
           {sidebarItems.map((item, index) => (
             <li
               key={index}
@@ -127,13 +127,13 @@ export const SideBar = ({ children }) => {
                 item.onClick();
                 setOpen(false);
               }}
-              className={`flex items-center justify-center xsm:justify-start space-x-3 p-2 rounded-lg cursor-pointer mt-2
-                ${selectedIndex === index ? 'bg-primary-c text-secondary-a' : 'text-secondary-b hover:bg-primary-a'}`}
+              className={`flex items-center text-sm xsm:justify-start space-x-3 p-2 rounded-lg cursor-pointer mt-2 text-nowrap pr-36
+                ${selectedIndex === index ? 'bg-primary-c text-secondary-a ' : 'text-secondary-b hover:bg-primary-a'}`}
             >
               <FontAwesomeIcon
                 icon={item.icon}
                 className={`${selectedIndex === index ? 'text-secondary-a' : 'text-secondary-b'} 
-                  ${!document.querySelector('body').classList.contains('lg') ? 'text-xl' : 'text-base'}`}
+                  ${!document.querySelector('body').classList.contains('lg') ? 'text-sm' : 'text-base'}`}
               />
               <span className={`${selectedIndex === index ? 'text-secondary-a' : ''}  lg:inline`}>{item.text}</span>
             </li>

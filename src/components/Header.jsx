@@ -98,7 +98,7 @@ const Header = () => {
             {isAuthenticated && (
               <Button
                 text="DashBoard"
-                className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-4 "
+                className="w-auto h-8 rounded-lg bg-primary-c text-primary-b flex justify-center items-center mb-1 "
                 onClick={() => navigate('/app/dashboard')}
               />
             )}

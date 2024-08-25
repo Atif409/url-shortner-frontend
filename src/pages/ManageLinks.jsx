@@ -219,7 +219,7 @@ const ManageLinks = () => {
     return <Loader title="Loading..." />;
   }
   return (
-    <div className="lg:pl-8 lg:mt-8">
+    <div className="lg:pl-8 lg:mt-8 pl-4">
       <h2 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider ">
         Manage Links
       </h2>

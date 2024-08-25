@@ -157,7 +157,7 @@ const CreateLinks = () => {
       {linkLoading ? (
         <Loader/>
       ) : (
-        <div className="flex flex-col items-start bg-primary-c mt-8 lg:pl-8 lg:pr-8">
+        <div className="flex flex-col items-start bg-primary-c mt-8 lg:pl-8 lg:pr-8 pl-4">
           <CustomModal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
@@ -169,7 +169,7 @@ const CreateLinks = () => {
           <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
             {id ? 'Update' : 'Create'} Short Links
           </h1>
-          <div className="sm:mt-8 mt-2 w-full">
+          <div className="sm:mt-8 mt-2 w-full ">
             <Input
               type="text"
               value={url}

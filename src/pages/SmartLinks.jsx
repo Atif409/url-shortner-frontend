@@ -160,7 +160,7 @@ const SmartLinks = () => {
   };
 
   return (
-    <div className="flex flex-col items-start bg-primary-c mt-8">
+    <div className="flex flex-col items-start bg-primary-c mt-8 lg:pl-8 lg:pr-8 pl-4">
       <CustomModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -169,14 +169,14 @@ const SmartLinks = () => {
         qrCode={true}
         message={true ? 'Your QR Code is ' : ''}
       />
-      <div className="lg:pl-8 lg:pr-8">
+      <div className="">
         <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
           {id ? 'Update' : 'Create'} Smart Shorten Link
         </h1>
         <h3 className="text-2xl font-medium mb-4 mt-4 text-secondary-a">Redirect Rules</h3>
       </div>
       {/* Select the redirect rule */}
-      <div className="lg:pl-8  w-full flex sm:flex-row flex-col sm:gap-4 items-center">
+      <div className=" w-full flex sm:flex-row flex-col sm:gap-4 items-center">
         <Dropdown
           options={redirectOptions}
           placeholder="Select the Redirect Rule"
@@ -230,7 +230,7 @@ const SmartLinks = () => {
           </div>
         </Modal>
       </div>
-      <div className="mt-2 lg:pl-8 lg:pr-8">
+      <div className="mt-2 ">
         <Input
           type="text"
           value={title}
@@ -254,7 +254,7 @@ const SmartLinks = () => {
       {/* Redirect Rules List */}
       {redirectRules &&
         redirectRules.map((rule, index) => (
-          <div key={index} className="grid lg:grid-cols-2 grid-cols-1 lg:pl-8 lg:pr-8 gap-4 mt-8 w-full">
+          <div key={index} className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-8 w-full">
             <div>
               <Dropdown
                 title={rule.ruleType}
@@ -295,7 +295,7 @@ const SmartLinks = () => {
             </div>
           </div>
         ))}
-      <div className="lg:pl-8 lg:pr-8 mt-4">
+      <div className=" mt-4">
         <Button
           className="bg-primary-b text-secondary-b rounded-xl h-8 mt-1 flex items-center justify-center "
           onClick={createSmartLink}
