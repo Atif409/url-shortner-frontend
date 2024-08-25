@@ -16,7 +16,8 @@ import {
   faArrowDown,
   faTrash, // Importing the trash icon
   faCopy,
-  faXmark
+  faXmark,
+  faDownload,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -36,7 +37,8 @@ library.add(
   faGoogle,
   faMicrosoft,
   faApple,
-  faTrash ,
+  faTrash,
   faCopy,
-  faXmark
+  faXmark,
+  faDownload
 );

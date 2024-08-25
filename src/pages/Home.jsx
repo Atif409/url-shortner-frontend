@@ -55,7 +55,7 @@ const Home = () => {
             <div className="p-4 flex flex-col">
               <Button
                 text="Start for Free"
-                className="bg-primary-a text-secondary-b w-48 h-auto flex justify-center items-center hover:opacity-75 rounded-lg font-bold"
+                className="bg-primary-b text-secondary-b w-48 h-auto flex justify-center items-center hover:opacity-75 rounded-lg font-bold"
                 onClick={() => {
                   navigate('/signup');
                 }}

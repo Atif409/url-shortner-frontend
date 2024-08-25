@@ -208,11 +208,10 @@ const Analytics = () => {
   );
   return (
     <div className="p-2 w-full ">
-      <div className="lg:pl-8 lg:pr-8">
-        <h2 className="text-4xl font-semibold mb-4 text-secondary-a tracking-wider ">Analytics</h2>
-        <h3 className="text-2xl font-medium mb-4 mt-4 text-secondary-a">Overview</h3>
+      <div className="lg:pl-8 lg:pr-8 mt-8">
+        <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">Analytics</h1>
+        <h3 className="text-3xl font-medium mb-4 mt-4 text-secondary-a">Overview</h3>
       </div>
-
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 lg:pl-8 lg:pr-8">
         {/* Top performing dates */}
         <div className="bg-primary-b text-secondary-b p-6 rounded-md shadow-md lg:h-[200px]">
@@ -223,7 +222,6 @@ const Analytics = () => {
             <p className="text-lg mt-1">{analyticsData.topPerformingDates.dateRange}</p>
           </div>
         </div>
-
         {/* Top performing location */}
         <div className="bg-primary-b text-secondary-b p-6 rounded-md shadow-md">
           <h4 className="text-2xl font-semibold mb-2">Top performing location</h4>

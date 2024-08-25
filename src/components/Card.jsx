@@ -22,15 +22,15 @@ const Card = ({ cardHeader, inputLabel, buttonText, imageSrc, onClick }) => {
               onChange={handleUrlChange}
               placeholder="https://urlShorten.com/"
               label={inputLabel}
-              labelClassName="my-1 text-secondary-a sm:text-3xl text-2xl font-bold tracking-wide"
-              className="w-[90%] h-10 border-2 pl-2 border-primary-a focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
+              labelClassName="my-1 text-secondary-a sm:text-xl text-lg font-bold tracking-wide"
+              className="w-[90%] h-10 border-2 pl-2 border-primary-b focus:outline-none focus:border-primary-a text-secondary-a hover:opacity-75"
             />
             <Button
               text={buttonText}
               onClick={() => {
                 onClick();
               }}
-              className="mt-2 bg-primary-a text-secondary-b xsm:w-[80%] lg:w-[40%] h-auto flex justify-center items-center font-bold text-xs sm:text-base hover:opacity-75 rounded-lg"
+              className="mt-2 bg-primary-b text-secondary-b xsm:w-[80%] lg:w-[40%] h-auto flex justify-center items-center font-bold text-xs sm:text-base hover:opacity-75 rounded-lg"
             />
           </div>
         </div>

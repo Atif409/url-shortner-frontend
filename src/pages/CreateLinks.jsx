@@ -12,6 +12,7 @@ import QRCode from 'react-qr-code';
 import { useNavigate } from 'react-router-dom';
 import CustomModal from '../components/CustomModal';
 import { createToast } from 'react-simple-toasts';
+import Loader from '../components/Loader';
 const customToast = createToast({
   duration: 3000,
   theme: 'dark',
@@ -120,13 +121,16 @@ const CreateLinks = () => {
   const createShortLink = async () => {
     if (!url) {
       customToast('Please enter a destination url');
-    } else if (isCustomAlias && !alias) {
+    } 
+    
+    else if (isCustomAlias && !alias) {
       customToast('Please choose a unique alias');
     } else if (isDateTimePickerToggled && !expirationTime) {
       customToast('Please choose an expiration time or disabled the set expiration');
     } else if (isPasswordToggled && !password) {
       customToast('Please choose some password or diabled the set password');
-    } else {
+    } 
+    else {
       const linkData = createGenerateLinkData();
       setLinkCreating(true);
       try {
@@ -151,9 +155,9 @@ const CreateLinks = () => {
   return (
     <>
       {linkLoading ? (
-        <h1>Loading Link...</h1>
+        <Loader/>
       ) : (
-        <div className="flex flex-col items-start bg-primary-c p-8">
+        <div className="flex flex-col items-start bg-primary-c mt-8 lg:pl-8 lg:pr-8 pl-4">
           <CustomModal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
@@ -165,7 +169,7 @@ const CreateLinks = () => {
           <h1 className="font-bold text-secondary-a sm:text-4xl text-2xl lg:tracking-widest tracking-wider">
             {id ? 'Update' : 'Create'} Short Links
           </h1>
-          <div className="sm:mt-8 mt-2 w-full">
+          <div className="sm:mt-8 mt-2 w-full ">
             <Input
               type="text"
               value={url}
