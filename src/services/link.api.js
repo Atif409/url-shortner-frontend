@@ -66,6 +66,138 @@ const getRecentLink = async (data) => {
   }
 };
 
+const getRecentClicks = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/getRecentClick`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const getDeviceTypeGroupedStat = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/getDeviceTypeGroupedStat`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const getReferrerTypeGroupedStat = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/getReferrerTypeGroupedStat`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const getLastRecentDaysQrScanCount = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/lastRecentDaysQrScanCount`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const getLastRecentDaysClickCount = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/lastRecentDaysClickCount`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const getLastRecentDaysClickQRScanCount = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/lastRecentDaysQrScanCount`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 const getLink = async (data) => {
   // Convert the data to x-www-form-urlencoded format
   const formattedData = prepareParams(data);
@@ -130,4 +262,17 @@ const getLinkList = async (data) => {
     console.error('Error:', error);
   }
 };
-export { createLink, getLink, updateLink, getLinkList, deleteLink, getRecentLink };
+export {
+  createLink,
+  getLink,
+  updateLink,
+  getLinkList,
+  deleteLink,
+  getRecentLink,
+  getRecentClicks,
+  getDeviceTypeGroupedStat,
+  getReferrerTypeGroupedStat,
+  getLastRecentDaysQrScanCount,
+  getLastRecentDaysClickCount,
+  getLastRecentDaysClickQRScanCount,
+};
