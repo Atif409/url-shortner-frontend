@@ -220,6 +220,50 @@ const getLink = async (data) => {
   }
 };
 
+const lastRecentEveryDaysClickCount = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/lastRecentEveryDaysClickCount`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const lastRecentEveryDaysClickQRScanCount = async (data) => {
+  // Convert the data to x-www-form-urlencoded format
+  const formattedData = prepareParams(data);
+  console.log(formattedData);
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/links/lastRecentEveryDaysClickQRScanCount`, // Your API endpoint
+      {
+        params: formattedData, // Query parameters
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${localStorageService.getItem('token')}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 const deleteLink = async (data) => {
   // Convert the data to x-www-form-urlencoded format
   const formattedData = prepareParams(data);
@@ -275,4 +319,6 @@ export {
   getLastRecentDaysQrScanCount,
   getLastRecentDaysClickCount,
   getLastRecentDaysClickQRScanCount,
+  lastRecentEveryDaysClickCount,
+  lastRecentEveryDaysClickQRScanCount,
 };

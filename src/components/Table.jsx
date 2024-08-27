@@ -1,7 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const Table = ({ headers, data, rowRenderer, className = '', headerClassName = '', rowClassName = '' }) => {
+import Loader from './Loader';
+const Table = ({
+  headers,
+  data,
+  rowRenderer,
+  className = '',
+  headerClassName = '',
+  rowClassName = '',
+  loadingData = null,
+  hasError = false,
+}) => {
   return (
     <div className={`overflow-x-auto ${className}`}>
       <table className="min-w-full bg-primary-c border border-primary-d">
@@ -17,15 +26,26 @@ const Table = ({ headers, data, rowRenderer, className = '', headerClassName = '
 
         <tbody>
           {/* Render each row */}
-          {data.map((row, index) => (
-            <tr key={index} className={`${index % 2 === 0 ? 'bg-primary-f  ' : ''} ${rowClassName}`}>
-              {rowRenderer(row, index)}
-            </tr>
-          ))}
+          {!loadingData &&
+            !hasError &&
+            data.map((row, index) => (
+              <tr key={index} className={`${index % 2 === 0 ? 'bg-primary-f  ' : ''} ${rowClassName}`}>
+                {rowRenderer(row, index)}
+              </tr>
+            ))}
         </tbody>
       </table>
-      {data.length == 0 && (
+
+      {loadingData && !hasError && (
+        <div className="bg-primary-f ${rowClassName} text-center text-secondary-a">
+          <Loader width={'w-[20px]'} height={'h-[20px]'} />
+        </div>
+      )}
+      {!loadingData && !hasError && data.length == 0 && (
         <div className={`bg-primary-f ${rowClassName} text-center text-secondary-a`}>No Record Exist!</div>
+      )}
+      {!loadingData && hasError && (
+        <div className={`bg-primary-f ${rowClassName} text-center text-secondary-a`}>Failed to load Record!</div>
       )}
     </div>
   );

@@ -11,9 +11,10 @@ import {
   getLastRecentDaysClickQRScanCount,
   getDeviceTypeGroupedStat,
   getReferrerTypeGroupedStat,
+  lastRecentEveryDaysClickCount,
+  lastRecentEveryDaysClickQRScanCount,
 } from '../services/link.api';
 import { getRecentClicks } from '../services/link.api';
-import { UTCTOLocal } from '../utils/getUTCToLocal';
 import { localStorageService } from '../utils/localStorageService';
 const Dashboard = () => {
   const [recentLinkLoading, setRecentLinkLoading] = useState(false);
@@ -23,25 +24,55 @@ const Dashboard = () => {
 
   const [lastSevenDaysQrScanCountData, setLastSevenDaysQrScanCountData] = useState({});
   const [lastSevenDaysQrScanCountLoading, setLastSevenDaysQrScanCountLoading] = useState(true);
-  const [lastSevenDaysQrScanCountError, setLastSevenDaysQrScanCountError] = useState(null);
+  const [lastSevenDaysQrScanCountError, setLastSevenDaysQrScanCountError] = useState(false);
 
   const [lastSevenDaysClickCountData, setLastSevenDaysClickCountData] = useState({});
   const [lastSevenDaysClickCountLoading, setLastSevenDaysClickCountLoading] = useState(true);
-  const [lastSevenDaysClickCountError, setLastSevenDaysClickCountError] = useState(null);
+  const [lastSevenDaysClickCountError, setLastSevenDaysClickCountError] = useState(false);
 
   const [recentClickData, setRecentClickData] = useState([]);
   const [recentClickLoading, setRecentClickLoading] = useState(true);
   const [recentClickError, setRecentClickError] = useState(null);
 
+  const [recentEveryDayClickData, setRecentEveryDayClickData] = useState([]);
+  const [recentEveryDayClickLoading, setRecentEveryDayClickLoading] = useState(true);
+  const [recentEveryDayClickError, setRecentEveryDayClickError] = useState(null);
+  const [recentEveryDayClickChartData, setRecentEveryDayClickChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: 'Click Over Time (Last 7 Days)',
+        data: [],
+        borderColor: '#839CF4',
+        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+        fill: true,
+      },
+    ],
+  });
+
+  const [recentEveryDayQrScanData, setRecentEveryDayQrScanData] = useState([]);
+  const [recentEveryDayQrScanLoading, setRecentEveryDayQrScanLoading] = useState(true);
+  const [recentEveryDayQrScanError, setRecentEveryDayQrScanError] = useState(false);
+  const [recentEveryDayQrScanChartData, setRecentEveryDayQrScanChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: 'QR Scan Over Time (Last 7 Days)',
+        data: [],
+        borderColor: '#839CF4',
+        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+        fill: true,
+      },
+    ],
+  });
   const [deviceTypeData, SetDeviceTypeData] = useState([]);
   const [deviceTypeDataLoading, setDeviceTypeDataLoading] = useState(true);
-  const [deviceTypeError, SetDeviceTypeError] = useState(null);
+  const [deviceTypeError, SetDeviceTypeError] = useState(false);
   const [dogNutDeviceTypeChartData, setDogNutDeviceTypeChartData] = useState({
     labels: [],
     datasets: [
       {
         data: [],
-        // backgroundColor: ['#007bff', '#80bfff', '#162447'],
       },
     ],
   });
@@ -49,8 +80,8 @@ const Dashboard = () => {
     labels: [],
     datasets: [
       {
+        label: 'No of Clicks',
         data: [],
-        // backgroundColor: ['#007bff', '#80bfff', '#162447'],
       },
     ],
   });
@@ -59,16 +90,55 @@ const Dashboard = () => {
   const [referrerTypeError, SetReferrerTypeError] = useState(null);
   const getRecentLinks = async () => {
     setRecentLinkLoading(true);
-    const recentLinkData = await getRecentLink({ length: 10, user_id: localStorageService.getItem('user_id') });
-    if (recentLinkData.data.success == false) {
+    try {
+      const recentLinkData = await getRecentLink({ length: 10, user_id: localStorageService.getItem('user_id') });
+      setRecentLinkLoadingError(false);
+      if (recentLinkData.data.success == false) {
+        setRecentLinkLoadingError(true);
+      } else {
+        setRecentLinkData(recentLinkData.data.data.recentLinks);
+        setLastSevenDaysRecentLinks(recentLinkData.data.data.recentDaysRecordsCount);
+      }
+    } catch (error) {
       setRecentLinkLoadingError(true);
-    } else {
-      // console.log(recentLinkData.data.data);
-
-      setRecentLinkData(recentLinkData.data.data.recentLinks);
-      setLastSevenDaysRecentLinks(recentLinkData.data.data.recentDaysRecordsCount);
     }
     setRecentLinkLoading(false);
+  };
+
+  const getRecentEveryDayClicks = async () => {
+    setRecentEveryDayClickLoading(true);
+    try {
+      const recentLinkData = await lastRecentEveryDaysClickCount({
+        user_id: localStorageService.getItem('user_id'),
+      });
+      setRecentEveryDayClickError(false);
+      if (recentLinkData.data.success == false) {
+        setRecentEveryDayClickError(true);
+      } else {
+        setRecentEveryDayClickData(recentLinkData.data.data.lastRecentDaysClickCountData);
+      }
+    } catch (error) {
+      setRecentEveryDayClickError(true);
+    }
+    setRecentEveryDayClickLoading(false);
+  };
+
+  const getRecentEveryDayQrScans = async () => {
+    setRecentEveryDayQrScanLoading(true);
+    try {
+      const recentLinkData = await lastRecentEveryDaysClickQRScanCount({
+        user_id: localStorageService.getItem('user_id'),
+      });
+      setRecentEveryDayQrScanError(false);
+      if (recentLinkData.data.success == false) {
+        setRecentEveryDayQrScanError(true);
+      } else {
+        setRecentEveryDayQrScanData(recentLinkData.data.data.lastRecentDaysClickQRScanCountData);
+      }
+    } catch (error) {
+      setRecentEveryDayQrScanError(true);
+    }
+    setRecentEveryDayQrScanLoading(false);
   };
 
   const prepareLabels = (dt) => {
@@ -82,27 +152,36 @@ const Dashboard = () => {
   };
   const getDeviceType = async () => {
     setDeviceTypeDataLoading(true);
-    const recentLinkData = await getDeviceTypeGroupedStat({
-      user_id: localStorageService.getItem('user_id'),
-    });
-    if (recentLinkData.data.success == false) {
-    } else {
-      // console.log(recentLinkData.data.data);
-      SetDeviceTypeData(recentLinkData.data.data);
-
-      // console.log(data);
+    try {
+      const recentLinkData = await getDeviceTypeGroupedStat({
+        user_id: localStorageService.getItem('user_id'),
+      });
+      SetDeviceTypeError(false);
+      if (recentLinkData.data.success == false) {
+        SetDeviceTypeError(true);
+      } else {
+        SetDeviceTypeData(recentLinkData.data.data);
+      }
+    } catch (error) {
+      SetDeviceTypeError(true);
     }
     setDeviceTypeDataLoading(false);
   };
 
   const getReferrerType = async () => {
     setReferrerTypeDataLoading(true);
-    const recentLinkData = await getReferrerTypeGroupedStat({
-      user_id: localStorageService.getItem('user_id'),
-    });
-    if (recentLinkData.data.success == false) {
-    } else {
-      SetReferrerTypeData(recentLinkData.data.data);
+    try {
+      const recentLinkData = await getReferrerTypeGroupedStat({
+        user_id: localStorageService.getItem('user_id'),
+      });
+      SetReferrerTypeError(false);
+      if (recentLinkData.data.success == false) {
+        SetReferrerTypeError(true);
+      } else {
+        SetReferrerTypeData(recentLinkData.data.data);
+      }
+    } catch (error) {
+      SetReferrerTypeError(true);
     }
     setReferrerTypeDataLoading(false);
   };
@@ -127,45 +206,98 @@ const Dashboard = () => {
       datasets: [
         {
           data: data.data,
-          // backgroundColor: ['#007bff', '#80bfff', '#162447'],
+          label: 'No of Clicks',
         },
       ],
     });
   }, [referrerTypeData]);
+
+  const getLineChartDateLabels = (dt) => {
+    const mn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let labels = [];
+    let data = [];
+    dt.forEach((val) => {
+      labels.push(`${mn[parseInt(val._id.split('-')[1])]} ${parseInt(val._id.split('-')[2])}`);
+      data.push(val.count);
+    });
+    return { labels, data };
+  };
+  useEffect(() => {
+    const data = getLineChartDateLabels(recentEveryDayQrScanData);
+    setRecentEveryDayQrScanChartData({
+      labels: data.labels,
+      datasets: [
+        {
+          label: 'QR Scan Over Time (Last 7 Days)',
+          data: data.data,
+          borderColor: '#839CF4',
+          backgroundColor: 'rgba(59, 130, 246, 0.5)',
+          fill: true,
+        },
+      ],
+    });
+  }, [recentEveryDayQrScanData]);
+
+  useEffect(() => {
+    const data = getLineChartDateLabels(recentEveryDayClickData);
+    setRecentEveryDayClickChartData({
+      labels: data.labels,
+      datasets: [
+        {
+          label: 'Click Over Time (Last 7 Days)',
+          data: data.data,
+          borderColor: '#839CF4',
+          backgroundColor: 'rgba(59, 130, 246, 0.5)',
+          fill: true,
+        },
+      ],
+    });
+  }, [recentEveryDayClickData]);
   const getRecentClick = async () => {
     setRecentClickLoading(true);
-    const recentLinkData = await getRecentClicks({ length: 10, user_id: localStorageService.getItem('user_id') });
-    if (recentLinkData.data.success == false) {
-      setRecentClickLoading(true);
-    } else {
-      // console.log(recentLinkData.data.data);
-
-      setRecentClickData(recentLinkData.data.data);
+    try {
+      const recentLinkData = await getRecentClicks({ length: 10, user_id: localStorageService.getItem('user_id') });
+      setRecentClickError(false);
+      if (recentLinkData.data.success == false) {
+        setRecentClickError(true);
+      } else {
+        setRecentClickData(recentLinkData.data.data);
+      }
+    } catch (error) {
+      setRecentClickError(true);
     }
     setRecentClickLoading(false);
   };
   const getLastSevenDaysQrScanCounts = async () => {
     setLastSevenDaysQrScanCountLoading(true);
-    const recentLinkData = await getLastRecentDaysClickQRScanCount({ user_id: localStorageService.getItem('user_id') });
-    if (recentLinkData.data.success == false) {
-      setLastSevenDaysQrScanCountError('error');
-    } else {
-      // console.log(recentLinkData.data.data);
-
-      setLastSevenDaysQrScanCountData(recentLinkData.data.data);
+    try {
+      const recentLinkData = await getLastRecentDaysClickQRScanCount({
+        user_id: localStorageService.getItem('user_id'),
+      });
+      setLastSevenDaysQrScanCountError(false);
+      if (recentLinkData.data.success == false) {
+        setLastSevenDaysQrScanCountError(true);
+      } else {
+        setLastSevenDaysQrScanCountData(recentLinkData.data.data);
+      }
+    } catch (error) {
+      setLastSevenDaysQrScanCountError(true);
     }
     setLastSevenDaysQrScanCountLoading(false);
   };
 
   const getLastSevenDaysClickCounts = async () => {
     setLastSevenDaysClickCountLoading(true);
-    const recentLinkData = await getLastRecentDaysClickCount({ user_id: localStorageService.getItem('user_id') });
-    if (recentLinkData.data.success == false) {
-      setRecentLinkLoadingError(true);
-    } else {
-      // console.log(recentLinkData.data.data);
-
-      setLastSevenDaysClickCountData(recentLinkData.data.data);
+    try {
+      const recentLinkData = await getLastRecentDaysClickCount({ user_id: localStorageService.getItem('user_id') });
+      setLastSevenDaysClickCountError(false);
+      if (recentLinkData.data.success == false) {
+        setLastSevenDaysClickCountError(true);
+      } else {
+        setLastSevenDaysClickCountData(recentLinkData.data.data);
+      }
+    } catch (error) {
+      setLastSevenDaysClickCountError(true);
     }
     setLastSevenDaysClickCountLoading(false);
   };
@@ -177,87 +309,12 @@ const Dashboard = () => {
     getRecentClick();
     getDeviceType();
     getReferrerType();
+    getRecentEveryDayClicks();
+    getRecentEveryDayQrScans();
   }, []);
-  const overviewData = [
-    {
-      title: 'Total URL Shorten in the last 7 days',
-      value: '100+',
-      change: null,
-    },
-    {
-      title: 'Total QR Code Scan in the last 7 days',
-      value: '50+',
-      change: '40%',
-      changeType: 'up',
-    },
-    {
-      title: 'Total Clicks in the last 7 days',
-      value: '500+',
-      change: '30%',
-      changeType: 'down',
-    },
-  ];
 
-  const recentClicks = [
-    { shortenUrl: 'Shorten URL 1', timeStamp: 'Date 1', clickLocation: 'Japan' },
-    { shortenUrl: 'Shorten URL 2', timeStamp: 'Date 2', clickLocation: 'USA' },
-    { shortenUrl: 'Shorten URL 3', timeStamp: 'Date 3', clickLocation: 'Canada' },
-    { shortenUrl: 'Shorten URL 4', timeStamp: 'Date 4', clickLocation: 'UK' },
-    { shortenUrl: 'Shorten URL 5', timeStamp: 'Date 5', clickLocation: 'London' },
-  ];
   const activityHeaders = ['#', 'Original URL', 'Shorten URL', 'Date Created', 'Smart Link', 'Click Count'];
   const clicksHeaders = ['#', 'Shorten URL', 'Time Stamp', 'Click Location'];
-
-  const clickData = {
-    labels: ['Jan 1', 'Jan 2', 'Jan 3', 'Jan 4', 'Jan 5'],
-    datasets: [
-      {
-        label: 'Click Over Time (Last 7 Days)',
-        data: [10, 30, 20, 35, 40],
-        borderColor: '#839CF4',
-        backgroundColor: 'rgba(59, 130, 246, 0.5)',
-        fill: true,
-      },
-    ],
-  };
-
-  const qrScanData = {
-    labels: ['Jan 1', 'Jan 2', 'Jan 3', 'Jan 4', 'Jan 5'],
-    datasets: [
-      {
-        label: 'QR Scan Over Time (Last 7 Days)',
-        data: [5, 25, 15, 20, 30],
-        borderColor: '#839CF4',
-        backgroundColor: 'rgba(59, 130, 246, 0.5)',
-        fill: true,
-      },
-    ],
-  };
-
-  const referralData = {
-    labels: ['Direct', 'Social Media', 'Search Engines'],
-    datasets: [
-      {
-        data: [50, 30, 20],
-        backgroundColor: ['#001f3f', '#3D94F6', '#FF4136'],
-      },
-    ],
-  };
-
-  const deviceData = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        // backgroundColor: ['#007bff', '#80bfff', '#162447'],
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: false,
-    maintainAspectRatio: false,
-  };
 
   const getTrend = (lastWeek, currentWeek) => {
     if (currentWeek > lastWeek) {
@@ -276,148 +333,174 @@ const Dashboard = () => {
         Dashboard
       </h1>
       <h1 className="text-2xl font-bold mb-4 text-secondary-a ">Overview</h1>
+
+      {/* Total URL Shorten in the last 7 days */}
       <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
-        {/* {overviewData.map((item, index) => ( */}
         <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
-          <div className="w-[75%]">
-            <h2 className="text-lg font-semibold">Total URL Shorten in the last 7 days</h2>
-            <div className="flex items-center justify-center mt-2">
-              <span className="text-3xl font-bold">
-                {lastSevenDaysRecentLinks == 0 ? '0' : lastSevenDaysRecentLinks - 1}+
-              </span>
-            </div>
-          </div>
-
-          {/* Conditionally render the separator div */}
-          {/* {index >= overviewData.length - 2 && <div className="bg-primary-c w-1"></div>} */}
-
-          {/* <div className="w-[25%] flex items-center justify-center">
-              {item.change && (
-                <span className="ml-2 text-secondary text-xl">
-                  <span className={`${item.changeType === 'up' ? 'text-green-500' : 'text-red-500'}`}>
-                    <FontAwesomeIcon icon={item.changeType === 'up' ? 'arrow-up' : 'arrow-down'} />
-                  </span>{' '}
-                  {item.change}
+          {!recentLinkLoadingError && (
+            <div className="w-[75%]">
+              <h2 className="text-lg font-semibold">Total URL Shorten in the last 7 days</h2>
+              <div className="flex items-center justify-center mt-2">
+                <span className="text-3xl font-bold">
+                  {recentLinkLoading ? (
+                    <Loader width="w-[20px]" height="h-[20px]" />
+                  ) : lastSevenDaysRecentLinks == 0 ? (
+                    '0'
+                  ) : (
+                    lastSevenDaysRecentLinks - 1
+                  )}
+                  {!recentLinkLoading && !recentLinkLoadingError ? '+' : ''}
                 </span>
-              )}
-            </div> */}
+              </div>
+            </div>
+          )}
+          {recentLinkLoadingError && (
+            <p className="text-xl font-bold">Sorry failed to load URL shorten in last 7 days</p>
+          )}
         </div>
-        {/* ))} */}
       </div>
 
+      {/* Total QR Scan in last 7 days */}
       <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
         <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
-          <div className="w-[75%]">
-            <h2 className="text-lg font-semibold">Total QR Scan in Last 7 days</h2>
-            <div className="flex items-center justify-center mt-2">
-              <span className="text-3xl font-bold">
-                {lastSevenDaysQrScanCountLoading
-                  ? '0'
-                  : lastSevenDaysQrScanCountData.count.lastRecentDaysQrScanCountData}
-                +
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-primary-c w-1"></div>
-
-          <div className=" pl-2 w-[25%] flex items-center justify-center">
-            {lastSevenDaysQrScanCountLoading
-              ? '0'
-              : getTrend(
-                  lastSevenDaysQrScanCountData.count.previousWeekCount,
-                  lastSevenDaysQrScanCountData.count.lastRecentDaysQrScanCountData
-                ).trend}
-            %
-            {!lastSevenDaysQrScanCountLoading && (
-              <span className="ml-2 text-secondary text-xl">
-                <span
-                  className={`${
-                    getTrend(
-                      lastSevenDaysQrScanCountData.count.previousWeekCount,
+          {!lastSevenDaysQrScanCountError && (
+            <>
+              <div className="w-[75%]">
+                <h2 className="text-lg font-semibold">Total QR Scan in Last 7 days</h2>
+                <div className="flex items-center justify-center mt-2">
+                  <span className="text-3xl font-bold">
+                    {lastSevenDaysQrScanCountLoading ? (
+                      <Loader width={'w-[20px]'} height={'h-[20px]'} />
+                    ) : (
                       lastSevenDaysQrScanCountData.count.lastRecentDaysQrScanCountData
-                    ).up
-                      ? 'text-green-500'
-                      : 'text-red-500'
-                  }`}
-                >
-                  {!lastSevenDaysQrScanCountLoading && (
-                    <FontAwesomeIcon
-                      icon={`${
+                    )}
+                    {!lastSevenDaysQrScanCountLoading &&
+                    !lastSevenDaysQrScanCountError &&
+                    lastSevenDaysQrScanCountData.count.lastRecentDaysQrScanCountData - 1 > 0
+                      ? '+'
+                      : ''}
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-primary-c w-1"></div>
+
+              {!lastSevenDaysQrScanCountLoading && !lastSevenDaysQrScanCountError ? (
+                <div className=" pl-2 w-[25%] flex items-center justify-center">
+                  {getTrend(
+                    lastSevenDaysQrScanCountData.count.previousWeekCount,
+                    lastSevenDaysQrScanCountData.count.lastRecentDaysQrScanCountData
+                  ).trend + '%'}
+
+                  <span className="ml-2 text-secondary text-xl">
+                    <span
+                      className={`${
                         getTrend(
                           lastSevenDaysQrScanCountData.count.previousWeekCount,
                           lastSevenDaysQrScanCountData.count.lastRecentDaysQrScanCountData
                         ).up
-                          ? 'arrow-up'
-                          : 'arrow-down'
+                          ? 'text-green-500'
+                          : 'text-red-500'
                       }`}
-                    />
-                  )}
-                </span>{' '}
-              </span>
-            )}
-          </div>
+                    >
+                      <FontAwesomeIcon
+                        icon={`${
+                          getTrend(
+                            lastSevenDaysQrScanCountData.count.previousWeekCount,
+                            lastSevenDaysQrScanCountData.count.lastRecentDaysQrScanCountData
+                          ).up
+                            ? 'arrow-up'
+                            : 'arrow-down'
+                        }`}
+                      />
+                    </span>{' '}
+                  </span>
+                </div>
+              ) : (
+                <Loader width={'w-[20px]'} height={'h-[20px]'} />
+              )}
+            </>
+          )}
+          {lastSevenDaysQrScanCountError && (
+            <p className="text-xl font-bold">Sorry failed to load QR Scan in last 7 days</p>
+          )}
         </div>
       </div>
 
+      {/* Total Clicks in last 7 days */}
       <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
         <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
-          <div className="w-[75%]">
-            <h2 className="text-lg font-semibold">Total Clicks in Last 7 days</h2>
-            <div className="flex items-center justify-center mt-2">
-              <span className="text-3xl font-bold">
-                {lastSevenDaysClickCountLoading ? '0' : lastSevenDaysClickCountData.count.lastRecentDaysClickCountData}+
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-primary-c w-1"></div>
-
-          <div className=" pl-2 w-[25%] flex items-center justify-center">
-            {lastSevenDaysClickCountLoading
-              ? '0'
-              : getTrend(
-                  lastSevenDaysClickCountData.count.previousWeekCount,
-                  lastSevenDaysClickCountData.count.lastRecentDaysClickCountData
-                ).trend}
-            %
-            {!lastSevenDaysClickCountLoading && (
-              <span className="ml-2 text-secondary text-xl">
-                <span
-                  className={`${
-                    getTrend(
-                      lastSevenDaysClickCountData.count.previousWeekCount,
+          {!lastSevenDaysClickCountError && (
+            <>
+              <div className="w-[75%]">
+                <h2 className="text-lg font-semibold">Total Clicks in Last 7 days</h2>
+                <div className="flex items-center justify-center mt-2">
+                  <span className="text-3xl font-bold">
+                    {lastSevenDaysClickCountLoading ? (
+                      <Loader width={'w-[20px]'} height={'h-[20px]'} />
+                    ) : (
                       lastSevenDaysClickCountData.count.lastRecentDaysClickCountData
-                    ).up
-                      ? 'text-green-500'
-                      : 'text-red-500'
-                  }`}
-                >
-                  {!lastSevenDaysClickCountLoading && (
-                    <FontAwesomeIcon
-                      icon={`${
+                    )}
+                    {!lastSevenDaysClickCountLoading &&
+                    !lastSevenDaysClickCountError &&
+                    lastSevenDaysClickCountData.count.lastRecentDaysClickCountData - 1 > 0
+                      ? '+'
+                      : ''}
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-primary-c w-1 mr-2"></div>
+              {!lastSevenDaysClickCountLoading && !lastSevenDaysClickCountError ? (
+                <div className="w-[25%] flex items-center justify-center">
+                  {getTrend(
+                    lastSevenDaysClickCountData.count.previousWeekCount,
+                    lastSevenDaysClickCountData.count.lastRecentDaysClickCountData
+                  ).trend + '%'}
+                  <span className="ml-2 text-secondary text-xl">
+                    <span
+                      className={`${
                         getTrend(
                           lastSevenDaysClickCountData.count.previousWeekCount,
                           lastSevenDaysClickCountData.count.lastRecentDaysClickCountData
                         ).up
-                          ? 'arrow-up'
-                          : 'arrow-down'
+                          ? 'text-green-500'
+                          : 'text-red-500'
                       }`}
-                    />
-                  )}
-                </span>{' '}
-              </span>
-            )}
-          </div>
+                    >
+                      <FontAwesomeIcon
+                        icon={`${
+                          getTrend(
+                            lastSevenDaysClickCountData.count.previousWeekCount,
+                            lastSevenDaysClickCountData.count.lastRecentDaysClickCountData
+                          ).up
+                            ? 'arrow-up'
+                            : 'arrow-down'
+                        }`}
+                      />
+                    </span>{' '}
+                  </span>
+                </div>
+              ) : (
+                <Loader width={'w-[20px]'} height={'h-[20px]'} />
+              )}
+            </>
+          )}
+          {lastSevenDaysClickCountError && (
+            <p className="text-xl font-bold">Sorry failed to load Clicks in last 7 days</p>
+          )}
         </div>
       </div>
 
-      <h2 className="text-xl font-bold mb-4 mt-4 text-secondary-a ">Recent Activity</h2>
+      <h2 className="text-xl font-bold mb-4 mt-4 text-secondary-a ">Recent Created Link Activity</h2>
 
+      {/* Recent Link created activity */}
       <Table
+        hasError={recentLinkLoadingError}
         headers={activityHeaders}
         data={recentLinkData}
         className="mb-8 rounded-t-3xl"
+        loadingData={recentLinkLoading}
         rowRenderer={(row, index) => (
           <>
             <td className=" text-nowrap border px-4 py-2 font-semibold">{index + 1}</td>
@@ -436,9 +519,12 @@ const Dashboard = () => {
 
       <div className=" bg-primary-c mt-4">
         <h2 className="text-xl font-bold mb-4 text-secondary-a">Most Recent URL Clicks</h2>
+        {/* Recent URL clicks */}
         <Table
+          hasError={recentClickError}
           headers={clicksHeaders}
           data={recentClickData}
+          loadingData={recentClickLoading}
           className="mb-8 rounded-t-3xl"
           rowRenderer={(row, index) => (
             <>
@@ -456,10 +542,24 @@ const Dashboard = () => {
         <h2 className="text-xl font-bold mb-4 text-secondary-a ">Analytics Summary</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center align-items-center">
           <div className="sm:w-full sm:h-96 w-72 h-7w-72 mt-4 flex flex-col items-center justify-center">
-            <Line data={clickData} />
+            {!recentEveryDayClickLoading && !recentEveryDayClickError ? (
+              <Line data={recentEveryDayClickChartData} />
+            ) : (
+              !recentEveryDayClickError && <Loader />
+            )}
+            {recentEveryDayClickError && (
+              <p className="text-xl font-bold">Sorry failed to load Clicks over last 7 days</p>
+            )}
           </div>
           <div className="sm:w-full sm:h-96 w-72 h-7w-72 mt-4 flex flex-col items-center justify-center">
-            <Line data={qrScanData} />
+            {!recentEveryDayQrScanLoading && !recentEveryDayQrScanError ? (
+              <Line data={recentEveryDayQrScanChartData} />
+            ) : (
+              !recentEveryDayQrScanError && <Loader />
+            )}
+            {recentEveryDayQrScanError && (
+              <p className="text-xl font-bold">Sorry failed to load QR Scan over last 7 days</p>
+            )}
           </div>
         </div>
 
@@ -467,11 +567,22 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center pb-8">
           <div className="sm:w-full sm:h-96 w-64 h-64 mt-4 flex flex-col items-center justify-center">
             <h2 className="text-lg font-semibold mb-2 text-secondary-a">Referral Resources</h2>
-            <Bar data={barChartReferrerTypeData} />
+
+            {!referrerTypeDataLoading && !referrerTypeError ? (
+              <Bar data={barChartReferrerTypeData} />
+            ) : (
+              !referrerTypeError && <Loader />
+            )}
+            {referrerTypeError && <p className="text-xl font-bold">Sorry failed to load Click Referrer Reources</p>}
           </div>
           <div className="sm:w-full sm:h-96 w-64 h-64 mt-8 flex flex-col items-center justify-center">
             <h2 className="text-lg font-semibold mb-2 text-secondary-a">Device Types</h2>
-            <Doughnut data={dogNutDeviceTypeChartData} />
+            {!deviceTypeDataLoading && !deviceTypeError ? (
+              <Doughnut data={dogNutDeviceTypeChartData} />
+            ) : (
+              !deviceTypeError && <Loader />
+            )}
+            {deviceTypeError && <p className="text-xl font-bold">Sorry failed to load Click Device Type Resources</p>}
           </div>
         </div>
       </div>
