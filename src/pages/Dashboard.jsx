@@ -317,6 +317,9 @@ const Dashboard = () => {
   const clicksHeaders = ['#', 'Shorten URL', 'Time Stamp', 'Click Location'];
 
   const getTrend = (lastWeek, currentWeek) => {
+    if(!lastWeek || !currentWeek){
+      return { up: false, trend: 0 };
+    }
     if (currentWeek > lastWeek) {
       return { up: true, trend: parseInt((currentWeek / lastWeek - 1) * 100) };
     } else {
@@ -333,13 +336,13 @@ const Dashboard = () => {
         Dashboard
       </h1>
       <h1 className="text-2xl font-bold mb-4 text-secondary-a ">Overview</h1>
+      <div className="grid sm:grid-cols-3 auto-rows-auto gap-4">
+        {/* Total URL Shorten in the last 7 days */}
 
-      {/* Total URL Shorten in the last 7 days */}
-      <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
-        <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
+        <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex justify-between">
           {!recentLinkLoadingError && (
             <div className="w-[75%]">
-              <h2 className="text-lg font-semibold">Total URL Shorten in the last 7 days</h2>
+              <h2 className="text-lg font-semibold">URL Shorten in last 7 days</h2>
               <div className="flex items-center justify-center mt-2">
                 <span className="text-3xl font-bold">
                   {recentLinkLoading ? (
@@ -358,11 +361,10 @@ const Dashboard = () => {
             <p className="text-xl font-bold">Sorry failed to load URL shorten in last 7 days</p>
           )}
         </div>
-      </div>
 
-      {/* Total QR Scan in last 7 days */}
-      <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
-        <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
+        {/* Total QR Scan in last 7 days */}
+
+        <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex ">
           {!lastSevenDaysQrScanCountError && (
             <>
               <div className="w-[75%]">
@@ -425,10 +427,9 @@ const Dashboard = () => {
             <p className="text-xl font-bold">Sorry failed to load QR Scan in last 7 days</p>
           )}
         </div>
-      </div>
 
-      {/* Total Clicks in last 7 days */}
-      <div className="grid sm:grid-cols-3 auto-rows-auto gap-4 ">
+        {/* Total Clicks in last 7 days */}
+
         <div className="p-4 bg-primary-b text-secondary-b rounded-lg flex">
           {!lastSevenDaysClickCountError && (
             <>
