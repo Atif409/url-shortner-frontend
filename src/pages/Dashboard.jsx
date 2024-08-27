@@ -217,7 +217,7 @@ const Dashboard = () => {
     let labels = [];
     let data = [];
     dt.forEach((val) => {
-      labels.push(`${mn[parseInt(val._id.split('-')[1])]} ${parseInt(val._id.split('-')[2])}`);
+      labels.push(`${mn[parseInt(val._id.split('-')[1]) - 1]} ${parseInt(val._id.split('-')[2])}`);
       data.push(val.count);
     });
     return { labels, data };
@@ -317,7 +317,7 @@ const Dashboard = () => {
   const clicksHeaders = ['#', 'Shorten URL', 'Time Stamp', 'Click Location'];
 
   const getTrend = (lastWeek, currentWeek) => {
-    if(!lastWeek || !currentWeek){
+    if (!lastWeek || !currentWeek) {
       return { up: false, trend: 0 };
     }
     if (currentWeek > lastWeek) {
