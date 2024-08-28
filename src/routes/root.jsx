@@ -19,6 +19,7 @@ import Dashboard from '../pages/Dashboard';
 import SmartLinks from '../pages/SmartLinks';
 import CreateQRCode from '../pages/CreateQRCode';
 import Loader from '../components/Loader';
+import SocialShare from '../components/SocialShare';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />,
+      },
+      {
+        path: 'social',
+        element: <SocialShare />,
       },
       {
         path: 'create-link/:id',
