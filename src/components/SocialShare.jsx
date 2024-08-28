@@ -33,8 +33,8 @@ const customToast = createToast({
 
   render: (message) => <b className="my-toast bg-primary-b text-secondary-b p-2 rounded-2xl ">{message}</b>,
 });
-const SocialShare = ({ url = 'http://localhost:5173/app/social', title = '' }) => {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
+const SocialShare = ({ url = 'http://localhost:5173/app/social', title = '', open = false }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(open);
   const closeModal = () => setModalIsOpen(false);
   return (
     <Modal
